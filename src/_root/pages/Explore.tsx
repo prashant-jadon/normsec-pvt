@@ -1,10 +1,12 @@
 import GridPostList from "@/components/shared/GridPostList";
+import GridUpdatesList from "@/components/shared/GridUpdatesList";
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
 import { useGetPosts, useSearchPosts } from "@/lib/react-query/queriesAndMutations";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import { Link, Outlet, Route, Routes, useLocation } from "react-router-dom";
 
 
 export type SearchResultProps = {
@@ -27,6 +29,7 @@ const SearchResults = ({ isSearchFetching, searchedPosts }: SearchResultProps) =
 const Explore = () => {
   const { ref, inView } = useInView();
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
+  const { pathname } = useLocation();
 
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearch = useDebounce(searchValue, 500);
@@ -51,6 +54,35 @@ const Explore = () => {
 
   return (
     <div className="explore-container">
+              <div className="flex max-w-5xl w-full">
+          <Link
+            to={`/explore/`}
+            className={`profile-tab rounded-l-lg ${
+              pathname === `/explore` && "!bg-dark-3"
+            }`}>
+            <img
+              src={"/assets/icons/posts.svg"}
+              alt="posts"
+              width={20}
+              height={20}
+            />
+            Search
+          </Link>
+          <Link
+            to={`/updates/`}
+            className={`profile-tab rounded-l-lg ${
+              pathname === `/news` && "!bg-dark-3"
+            }`}>
+            <img
+              src={"/assets/icons/explore.svg"}
+              alt="posts"
+              width={20}
+              height={20}
+            />
+            Updates
+          </Link>
+        </div>
+
       <div className="explore-inner_container">
         <h2 className="h3-bold md:h2-bold w-full">Search Posts</h2>
         <div className="flex gap-1 px-4 w-full rounded-lg bg-dark-4">
@@ -108,7 +140,10 @@ const Explore = () => {
           <Loader />
         </div>
       )}
+
     </div>
+
+    
   );
 };
 

@@ -60,3 +60,4 @@ export const checkIsLiked = (likeList: string[], userId: string) => {
 export const checkIsFollowed = (followers: string[], userId: string) => {
   return followers.includes(userId);
 };
+

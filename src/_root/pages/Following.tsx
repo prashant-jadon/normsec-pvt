@@ -3,7 +3,7 @@ import { useGetUserById } from '@/lib/react-query/queriesAndMutations';
 import { Loader } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
-const Followers = () => {
+const Followings = () => {
 
   const { id } = useParams();
   const { data: currentUser } = useGetUserById(id || "");
@@ -21,4 +21,4 @@ const Followers = () => {
   )
 }
 
-export default Followers
+export default Followings

@@ -17,54 +17,45 @@ const GridPostList = ({
   const { user } = useUserContext();
 
   return (
-    <ul className="grid-container">
-      {posts.map((post) => (
-        <li key={post.$id} className="relative min-w-80 h-80">
-          <Link to={`/posts/${post.$id}`} className="grid-post_link">
-            <img
-              src={post.imageUrl || ""}
-              alt="post"
-              className={post.imageUrl ? "h-full w-full object-cover" : "w-0 h-0"}
-            />
-          </Link>
-
-          <div className="grid-post_user">
-            {showUser && (
-              <div className="flex items-center justify-start gap-2 flex-1">
-                
+    <div>
+      <ul className="grid-container">
+        {posts.map((post) => (
+          <li key={post.$id} className="relative min-w-80 h-auto mb-4">
+            <Link to={`/posts/${post.$id}`} className="block">
+              {post.imageUrl && (
                 <img
-                  src={
-                    post.creator.imageUrl ||
-                    "/assets/icons/profile-placeholder.svg"
-                  }
-                  alt="creator"
-                  className="w-8 h-8 rounded-full"
+                  src={post.imageUrl}
+                  alt="post"
+                  className="w-full h-auto rounded-lg"
                 />
-                
-                <p className="line-clamp-1">{post.creator.name}</p>
-               
-              </div>
-              
-            )}
-            {showStats && <PostStats post={post} userId={user.id} />}
-            
-          </div>
-
-          {/* Display post caption if imageUrl is null */}
-          {post.imageUrl === null && (
-            <Link to={`/posts/${post.$id}`}>
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 text-white">
-                 
-              <p className="text-center">{post.caption}</p>
-              </div>
-              </Link>
-            
-
-            
-          )}
-        </li>
-      ))}
-    </ul>
+              )}
+              {!post.imageUrl && (
+                <div className="bg-black bg-opacity-20 text-white p-4 rounded-lg">
+<p className="text-lg font-semibold mb-20">{post.caption}</p>
+                </div>
+              )}
+            </Link>
+            <div className="grid-post_user mt-2">
+              {showUser && (
+                <div className="flex items-center justify-start gap-2">
+                  <img
+                    src={post.creator.imageUrl || "/assets/icons/profile-placeholder.svg"}
+                    alt="creator"
+                    className="w-8 h-8 rounded-full"
+                  />
+                  <p className="line-clamp-1">{post.creator.name}</p>
+                </div>
+              )}
+              {showStats && (
+                <div className="mt-20">
+                  <PostStats post={post} userId={user.id} />
+                </div>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

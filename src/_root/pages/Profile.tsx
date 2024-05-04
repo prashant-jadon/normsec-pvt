@@ -69,7 +69,7 @@ const Profile = () => {
              <Link to={`/${currentUser.$id}/followers`} ><StatBlock value={currentUser.followers.length} label="Followers" /> 
              
              </Link>
-              <Link to={`/${currentUser.$id}/following`}><StatBlock value={currentUser.following.length} label="Following" /></Link>
+              <Link to={`/${currentUser.$id}/followings`}><StatBlock value={currentUser.following.length} label="Following" /></Link>
             </div>
 
             <p className="small-medium md:base-medium text-center xl:text-left mt-7 max-w-screen-sm">
@@ -140,6 +140,7 @@ const Profile = () => {
         />
         {currentUser.$id === user.id && (
           <Route path="/liked-posts" element={<LikedPosts />} />
+          
         )}
       </Routes>
       <Outlet />

@@ -17,12 +17,9 @@ import { useUserContext } from '@/context/AuthContext'
 const SignInForm = () => {
   const { toast } = useToast();
   const {checkAuthUser,isLoading: isUserLoading} = useUserContext();
-    const {mutateAsync:signInAccount,isPending} = useSignInAccount();
+    const {mutateAsync:signInAccount} = useSignInAccount();
     const navigate = useNavigate();
 
-    if(isPending){
-      return <Loader/>;
-    }
 
     const form = useForm<z.infer<typeof SignInValidation>>({
         resolver: zodResolver(SignInValidation),

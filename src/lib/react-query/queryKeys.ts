@@ -10,11 +10,15 @@ export enum QUERY_KEYS {
     // POST KEYS
     GET_POSTS = "getPosts",
     GET_INFINITE_POSTS = "getInfinitePosts",
+    GET_INFINITE_UPDATES = "getInfiniteUpdates",
     GET_RECENT_POSTS = "getRecentPosts",
     GET_POST_BY_ID = "getPostById",
     GET_USER_POSTS = "getUserPosts",
+    GET_USER_UPDATES = "getUserUpdates",
     GET_FILE_PREVIEW = "getFilePreview",
   
     //  SEARCH KEYS
     SEARCH_POSTS = "getSearchPosts",
+    SEARCH_UPDATES = "getSearchUpdates",
+
   }

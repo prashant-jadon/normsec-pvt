@@ -1,5 +1,5 @@
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
-import { ID, Query } from "appwrite";
+import { ID, ImageFormat, ImageGravity, Query } from "appwrite";
 import {account, appwriteConfig, databases, storage} from "./config";
 import { avatars } from "./config";
 
@@ -168,8 +168,10 @@ export function getFilePreview(fileId: string) {
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId,
       fileId,
-      2000,
-      2000,
+      200,
+      200,
+      ImageGravity.Center,
+      70,
     );
 
     if (!fileUrl) throw Error;
@@ -214,6 +216,26 @@ export async function likePost(postId: string, likesArray: string[]) {
     console.log(error);
   }
 }
+
+export async function likeUpdate(postId: string, likesArray: string[]) {
+  try {
+    const updatedPost = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.requestItemCollectionId,
+      postId,
+      {
+        likesRequest: likesArray,
+      }
+    );
+
+    if (!updatedPost) throw Error;
+
+    return updatedPost;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 
 
@@ -273,6 +295,23 @@ export async function getPostById(postId?: string) {
   }
 }
 
+export async function getUpdateById(updateId?: string) {
+  if (!updateId) throw Error;
+
+  try {
+    const update = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.requestItemCollectionId,
+      updateId
+    );
+
+    if (!update) throw Error;
+
+    return update;
+  } catch (error) {
+    console.log(error);
+  }
+}
 // ============================== UPDATE POST
 export async function updatePost(post: IUpdatePost) {
   const hasFileToUpdate = post.file && post.file.length > 0;
@@ -376,6 +415,24 @@ export async function getUserPosts(userId?: string) {
   }
 }
 
+export async function getUserUpdates(userId?: string) {
+  if (!userId) return;
+
+  try {
+    const post = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.requestItemCollectionId,
+      [Query.equal("creator", userId), Query.orderDesc("$createdAt")]
+    );
+
+    if (!post) throw Error;
+
+    return post;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function searchPosts(searchTerm: string) {
   try {
     const posts = await databases.listDocuments(
@@ -391,6 +448,24 @@ export async function searchPosts(searchTerm: string) {
     console.log(error);
   }
 }
+
+
+export async function searchUpdates(searchTerm: string) {
+  try {
+    const updates = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.requestItemCollectionId,
+      [Query.search("captionRequest", searchTerm)]
+    );
+
+    if (!updates) throw Error;
+
+    return updates;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
   const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(9)];
@@ -413,6 +488,29 @@ export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
     console.log(error);
   }
 }
+
+export async function getInfiniteUpdates({ pageParam }: { pageParam: number }) {
+  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(9)];
+
+  if (pageParam) {
+    queries.push(Query.cursorAfter(pageParam.toString()));
+  }
+
+  try {
+    const updates = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.requestItemCollectionId,
+      queries
+    );
+
+    if (!updates) throw Error;
+    console.log(updates);
+    return updates;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 export async function getUserById(userId: string) {
   try {
