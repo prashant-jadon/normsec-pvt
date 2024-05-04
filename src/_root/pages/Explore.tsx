@@ -1,12 +1,11 @@
 import GridPostList from "@/components/shared/GridPostList";
-import GridUpdatesList from "@/components/shared/GridUpdatesList";
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
 import { useGetPosts, useSearchPosts } from "@/lib/react-query/queriesAndMutations";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { Link, Outlet, Route, Routes, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 
 export type SearchResultProps = {

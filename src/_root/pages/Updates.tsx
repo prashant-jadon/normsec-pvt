@@ -5,7 +5,6 @@ import { useGetUpdates, useSearchUpdates } from "@/lib/react-query/queriesAndMut
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { useLocation } from "react-router-dom";
 
 export type SearchResultProps = {
   isSearchFetching: boolean;

@@ -1,10 +1,9 @@
 import UpdateStats from '@/components/shared/UpdateStats';
 import { Button } from '@/components/ui/button';
 import { useUserContext } from '@/context/AuthContext';
-import { useGetUpdatesById, useGetUserUpdates } from '@/lib/react-query/queriesAndMutations';
+import { useGetUpdatesById } from '@/lib/react-query/queriesAndMutations';
 import { multiFormatDateString } from '@/lib/utils';
 import { Loader } from 'lucide-react';
-import React from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const UpdateDetails = () => {

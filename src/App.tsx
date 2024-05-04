@@ -9,7 +9,6 @@ import { Toaster } from './components/ui/toaster';
 import UpdateProfile from './_root/pages/UpdateProfile';
 import Followers from './_root/pages/Followers';
 import Followings from './_root/pages/Following';
-import News from './_root/pages/Updates';
 import Updates from './_root/pages/Updates';
 import UpdateDetails from './_root/pages/UpdateDetails';
 
