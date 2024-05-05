@@ -32,29 +32,43 @@ export async function createUserAccount(user:INewUser){
 
 export async function signInWithGoogle() {
   try {
-    const newAccount = await account.createOAuth2Session(
-      OAuthProvider.Google,
-      `${window.location.origin}`,
-      `${window.location.origin}/signin`
-    )
+      // Authenticate with Google OAuth via Appwrite
+      const googleOAuthSession = await account.createOAuth2Session(
+          OAuthProvider.Google,
+          `${window.location.origin}`, // Redirect URL
+          `${window.location.origin}/signin` // Success URL
+      );
 
-    const accountData = await account.get();
-    if(!newAccount) throw Error;
+      console.log(googleOAuthSession);
+      // Retrieve user data after authentication
+      const accountData = await account.get();
 
-    const avatarUrl = avatars.getInitials(accountData.name);
-    const newUser = await saveUserToDB({
-        accountId : accountData.$id,
-        name: accountData.name,
-        email: accountData.email,
-        username: accountData.name,
-        imageUrl: avatarUrl
-    });
+      // Extracting name and email from the account data
+      const name = accountData.name;
+      const email = accountData.email;
 
-    return newUser;
-} catch (error) {
-    console.log(error);
-    return error;
-}
+      // If name or email is not found, throw an error
+      if (!name || !email) {
+          throw new Error('Name or email not found');
+      }
+
+      // Generate avatar URL
+      const avatarUrl = avatars.getInitials(name);
+
+      // Save user data to the database
+      const newUser = await saveUserToDB({
+          accountId: accountData.$id,
+          name: name, // Save the retrieved name
+          email: email, // Save the retrieved email
+          username: name,
+          imageUrl: avatarUrl
+      });
+
+      return newUser;
+  } catch (error) {
+      console.log(error);
+      return error;
+  }
 }
 
 export async function saveUserToDB(user:{
