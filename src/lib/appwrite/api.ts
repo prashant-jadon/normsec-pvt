@@ -35,8 +35,8 @@ export async function signInWithGoogle() {
       // Authenticate with Google OAuth via Appwrite
       const googleOAuthSession = await account.createOAuth2Session(
           OAuthProvider.Google,
-          `${window.location.origin}`, // Redirect URL
-          `${window.location.origin}/signin` // Success URL
+          `${window.location.origin}/signin`, // Redirect URL
+          `${window.location.origin}` // Success URL
       );
 
       console.log(googleOAuthSession);
@@ -58,7 +58,7 @@ export async function signInWithGoogle() {
           username: name,
           imageUrl: avatarUrl
       });
-
+      console.log(newUser);
       return newUser;
   } catch (error) {
       console.log(error);
