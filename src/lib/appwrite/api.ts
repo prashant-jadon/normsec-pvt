@@ -1,5 +1,5 @@
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
-import { ID, ImageGravity, Query } from "appwrite";
+import { ID, ImageGravity, OAuthProvider, Query } from "appwrite";
 import {account, appwriteConfig, databases, storage} from "./config";
 import { avatars } from "./config";
 
@@ -11,6 +11,7 @@ export async function createUserAccount(user:INewUser){
             user.password,
             user.name,
         )
+
         if(!newAccount) throw Error;
 
         const avatarUrl = avatars.getInitials(user.name);
@@ -27,6 +28,33 @@ export async function createUserAccount(user:INewUser){
         console.log(error);
         return error;
     }
+}
+
+export async function signInWithGoogle(user:INewUser) {
+  try {
+    const newAccount = await account.createOAuth2Session(
+      OAuthProvider.Google,
+      "https://normsec.me",
+      "https://normsec.me/signin"
+    )
+
+    const accountData = await account.get();
+    if(!newAccount) throw Error;
+
+    const avatarUrl = avatars.getInitials(user.name);
+    const newUser = await saveUserToDB({
+        accountId : accountData.$id,
+        name: accountData.name,
+        email: accountData.email,
+        username: user.username,
+        imageUrl: avatarUrl
+    });
+
+    return newUser;
+} catch (error) {
+    console.log(error);
+    return error;
+}
 }
 
 export async function saveUserToDB(user:{
@@ -58,6 +86,7 @@ export async function signInAccount(user:{email:string;password:string}) {
         console.log(error)
     }
 }
+
 
 export async function getCurrentUser() {
     try {

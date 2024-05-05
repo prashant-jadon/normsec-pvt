@@ -10,7 +10,7 @@ import { SignUpValidation } from '@/lib/Validation'
 import Loader from '@/components/shared/Loader'
 import { Link, useNavigate } from 'react-router-dom'
 import { useToast } from "@/components/ui/use-toast"
-import { useCreatUserAccount, useSignInAccount } from '@/lib/react-query/queriesAndMutations'
+import { useCreatUserAccount, useCreatUserAccountWithGoogle, useSignInAccount } from '@/lib/react-query/queriesAndMutations'
 import { useUserContext } from '@/context/AuthContext'
 
 
@@ -19,6 +19,10 @@ const SignUpForm = () => {
   const { toast } = useToast();
   const {checkAuthUser} = useUserContext();
     const {mutateAsync:createUserAccount,isPending:isCreatingUser} = useCreatUserAccount();
+    const {mutateAsync:createUserAccountwithgoogle,isPending:isCreatingUserwithgoogle} = useCreatUserAccountWithGoogle();
+
+    
+
     const {mutateAsync:signInAccount} = useSignInAccount();
     const navigate = useNavigate();
 
@@ -42,6 +46,16 @@ const SignUpForm = () => {
             title: "Sign Up Failed.Please try again",
           });
         }
+
+        const withgoogle = await createUserAccountwithgoogle(values);
+        if(!newUser){
+          return  toast({
+            title: "Sign Up Failed.Please try again",
+          });
+        }
+        console.log(withgoogle)
+
+
       
        const session = await signInAccount({
         email: values.email,
@@ -134,6 +148,18 @@ const SignUpForm = () => {
                   </div>
                 ):
                 "Sign Up"
+                }
+              </Button>
+
+              <Button type="submit" className='shad-button_primary'>
+                {isCreatingUserwithgoogle?(
+                  <div className='flex-center gap-2'>
+                    
+                    <Loader/>
+                    Loading...
+                  </div>
+                ):
+                "Sign Up with google"
                 }
               </Button>
               <p className='text-small-regular text-light-2 text-center mt-2'>
