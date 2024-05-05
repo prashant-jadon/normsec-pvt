@@ -167,7 +167,15 @@ const SignUpForm = () => {
            const withgoogle = await createUserAccountwithgoogle();
            console.log(withgoogle)
     }}>
-GOOOGLE
+  {isCreatingUserwithgoogle?(
+                  <div className='flex-center gap-2'>
+                    
+                    <Loader/>
+                    Loading...
+                  </div>
+                ):
+                "Sign Up with google"
+                }
     </button>
   </Form>
   
