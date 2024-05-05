@@ -19,27 +19,33 @@ const Postcard = ({post}: PostCardProps) => {
         return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
     };
 
+    // Function to truncate text to a specified length
+    const truncateText = (text: string, maxLength: number) => {
+        if (text.length <= maxLength) return text;
+        return text.slice(0, maxLength) + '...';
+    };
+
     return (
-        <div className='post-card'>
-            <div className='flex-between'>
-                <div className='flex items-center gap-3'>
+        <div className='bg-white rounded-lg shadow-lg p-4 mb-4'>
+            <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between'>
+                <div className='flex items-center mb-3 lg:mb-0'>
                     <Link to={`/profile/${post.creator.$id}`} >
                         <img 
                             src={post?.creator?.imageUrl || '/assets/icons/profile-placeholder.svg'}
                             alt='creator'
-                            className='rounded-full w-12 lg:h-12'/>
+                            className='rounded-full w-12 h-12 lg:w-16 lg:h-16 mr-3'/>
                     </Link>
 
                     <div className='flex flex-col'>
-                        <p className='base-medium lg:body-bold text-light-1'>
+                        <p className='text-lg font-bold text-gray-800'>
                             {post.creator.name}
                         </p>
-                        <div className='flex-center gap-3 text-light-3'>
-                            <p className='subtle-semibold lg:small-regular'>
+                        <div className='flex items-center text-sm text-gray-600'>
+                            <p className='mr-2'>
                                 {formatDateString(post.$createdAt)}
                             </p>
-                            -
-                            <p className='subtle-semibold lg:small-regular' >
+                            <p>-</p>
+                            <p className='ml-2'>
                                 {post.location}
                             </p>
                         </div>
@@ -56,20 +62,22 @@ const Postcard = ({post}: PostCardProps) => {
                 </Link>
             </div>
             <Link to={`/posts/${post.$id}`}>
-                <div className='small-medium lg:base-medium py-4'>
-                    <p className='post-caption' dangerouslySetInnerHTML={{ __html: makeLinksClickable(post.caption) }}></p>
+                <div className='py-4'>
+                    <p className='text-lg font-semibold text-gray-900' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(post.caption, 20)) }}></p>
                     <ul className='flex gap-1 mt-2'>
                         {post.tags.map((tag:string)=>(
-                            <li key={tag} className='text-light-3'>
+                            <li key={tag} className='text-gray-600'>
                                 #{tag}
                             </li>
                         ))}
                     </ul>
                 </div>
 
-                <img src={post.imageUrl || ''}
-                    className={post.imageUrl!==null ? "post-card_img" : "w-0 h-0"}
-                    alt='post image'/>
+                {post.imageUrl && 
+                    <img src={post.imageUrl}
+                        className='w-full h-auto rounded-lg mt-4'
+                        alt='post image'/>
+                }
             </Link>
 
             <PostStats post={post} userId={user.id}/>
