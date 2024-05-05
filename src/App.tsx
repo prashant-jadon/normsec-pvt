@@ -16,7 +16,7 @@ import UpdateDetails from './_root/pages/UpdateDetails';
 const App = () => {
   return (
     <main className="flex h-screen">
-      <Routes>
+      <Routes >
         <Route element={<AuthLayout/>}>
           <Route path='/signin' element={<SignInForm/>}/>
           <Route path='/signup' element={<SignUpForm/>}/>
