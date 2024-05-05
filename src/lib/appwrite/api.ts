@@ -34,8 +34,8 @@ export async function signInWithGoogle(user:INewUser) {
   try {
     const newAccount = await account.createOAuth2Session(
       OAuthProvider.Google,
-      "https://normsec.me",
-      "https://normsec.me/signin"
+      "https://www.normsec.me",
+      "https://www.normsec.me/signin"
     )
 
     const accountData = await account.get();
