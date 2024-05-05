@@ -55,9 +55,10 @@ const Postcard = ({post}: PostCardProps) => {
                         height={20}/>
                 </Link>
             </div>
+            <p className='post-caption' dangerouslySetInnerHTML={{ __html: makeLinksClickable(post.caption) }}></p>
+
             <Link to={`/posts/${post.$id}`}>
                 <div className='small-medium lg:base-medium py-4'>
-                    <p className='post-caption' dangerouslySetInnerHTML={{ __html: makeLinksClickable(post.caption) }}></p>
                     <ul className='flex gap-1 mt-2'>
                         {post.tags.map((tag:string)=>(
                             <li key={tag} className='text-light-3'>
