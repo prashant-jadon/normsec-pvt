@@ -1,7 +1,8 @@
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
-import { ID, ImageGravity, Query } from "appwrite";
+import { ID, ImageFormat, ImageGravity, Query } from "appwrite";
 import {account, appwriteConfig, databases, storage} from "./config";
 import { avatars } from "./config";
+import { FileOutput } from "lucide-react";
 
 export async function createUserAccount(user:INewUser){
     try {
@@ -207,12 +208,14 @@ export function getFilePreview(fileId: string) {
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId,
       fileId,
-      200,
-      200,
-      ImageGravity.Center,
-      70,
-    );
+      undefined,
+      undefined,
+      undefined,
+      90,
+      undefined,undefined,undefined,undefined,undefined,undefined,ImageFormat.Webp
+    )
 
+    
     if (!fileUrl) throw Error;
 
     return fileUrl;
