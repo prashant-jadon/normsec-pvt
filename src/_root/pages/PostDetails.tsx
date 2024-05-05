@@ -33,11 +33,7 @@ const PostDetails = () => {
         return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
     };
 
-     // Function to truncate text to a specified length
-     const truncateText = (text: string, maxLength: number) => {
-      if (text.length <= maxLength) return text;
-      return text.slice(0, maxLength) + '...';
-  };
+    
 
 
   const handleDeletePost = () => {
@@ -135,14 +131,6 @@ const PostDetails = () => {
             <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
             <p className='post-caption' dangerouslySetInnerHTML={{ __html: makeLinksClickable(post.caption) }}></p>
               <ul className="flex gap-1 mt-2">
-                
-                {post?.tags.map((tag: string, index: string) => (
-                  <li
-                    key={`${tag}${index}`}
-                    className="text-light-3 small-regular">
-                     #{truncateText(tag,10)}
-                  </li>
-                ))}
               </ul>
             </div>
 
