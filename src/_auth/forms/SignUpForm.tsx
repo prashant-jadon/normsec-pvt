@@ -47,13 +47,7 @@ const SignUpForm = () => {
           });
         }
 
-        const withgoogle = await createUserAccountwithgoogle();
-        if(!newUser){
-          return  toast({
-            title: "Sign Up Failed.Please try again",
-          });
-        }
-        console.log(withgoogle)
+   
 
 
       
@@ -169,7 +163,14 @@ const SignUpForm = () => {
 
             </form>
     </div>
+    <button onClick={async ()=>{
+           const withgoogle = await createUserAccountwithgoogle();
+           console.log(withgoogle)
+    }}>
+GOOOGLE
+    </button>
   </Form>
+  
   )
 }
 
