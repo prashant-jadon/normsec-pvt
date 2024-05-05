@@ -33,11 +33,6 @@ const PostDetails = () => {
         return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
     };
 
-    const truncateText = (text: string, maxLength: number) => {
-      if (text.length <= maxLength) return text;
-      return text.slice(0, maxLength) + '...';
-  };
-
     
 
 
@@ -136,11 +131,15 @@ const PostDetails = () => {
             <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
             <p className='post-caption' dangerouslySetInnerHTML={{ __html: makeLinksClickable(post.caption) }}></p>
               <ul className="flex gap-1 mt-2">
-
-              <p  className="text-light-3 small-regular">
-                        {truncateText(post?.tags, 20)} {/* Truncate the tag list */}
-                    </p>
-             
+                
+                
+                {post?.tags.map((tag: string, index: string) => (
+                  <li
+                    key={`${tag}${index}`}
+                    >
+                     #{tag}
+                  </li>
+                ))}
               </ul>
             </div>
 
