@@ -13,7 +13,7 @@ export const useCreatUserAccount = () => {
 
 export const useCreatUserAccountWithGoogle = () => {
   return useMutation({
-      mutationFn:(user:INewUser)=> signInWithGoogle(user),
+      mutationFn:()=> signInWithGoogle(),
 
   })
 }

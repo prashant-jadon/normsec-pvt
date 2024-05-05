@@ -47,7 +47,7 @@ const SignUpForm = () => {
           });
         }
 
-        const withgoogle = await createUserAccountwithgoogle(values);
+        const withgoogle = await createUserAccountwithgoogle();
         if(!newUser){
           return  toast({
             title: "Sign Up Failed.Please try again",

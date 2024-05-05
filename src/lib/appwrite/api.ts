@@ -30,7 +30,7 @@ export async function createUserAccount(user:INewUser){
     }
 }
 
-export async function signInWithGoogle(user:INewUser) {
+export async function signInWithGoogle() {
   try {
     const newAccount = await account.createOAuth2Session(
       OAuthProvider.Google,
@@ -41,12 +41,12 @@ export async function signInWithGoogle(user:INewUser) {
     const accountData = await account.get();
     if(!newAccount) throw Error;
 
-    const avatarUrl = avatars.getInitials(user.name);
+    const avatarUrl = avatars.getInitials(accountData.name);
     const newUser = await saveUserToDB({
         accountId : accountData.$id,
         name: accountData.name,
         email: accountData.email,
-        username: user.username,
+        username: accountData.name,
         imageUrl: avatarUrl
     });
 
