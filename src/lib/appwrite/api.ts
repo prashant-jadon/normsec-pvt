@@ -30,41 +30,41 @@ export async function createUserAccount(user:INewUser){
     }
 }
 
-export async function signInWithGoogle() {
-  try {
-      // Authenticate with Google OAuth via Appwrite
-      const googleOAuthSession = await account.createOAuth2Session(
-          OAuthProvider.Google,
-          `${window.location.origin}/signin`, // Redirect URL
-          `${window.location.origin}` // Success URL
-      );
+// export async function signInWithGoogle() {
+//   try {
+//       // Authenticate with Google OAuth via Appwrite
+//       const googleOAuthSession = await account.createOAuth2Session(
+//           OAuthProvider.Google,
+//           `${window.location.origin}/signin`, // Redirect URL
+//           `${window.location.origin}` // Success URL
+//       );
 
-      console.log(googleOAuthSession);
+//       console.log(googleOAuthSession);
     
-      const accountData = await account.get();
-      const name = accountData.name;
-      const email = accountData.email;
-      const id = accountData.$id;
-      if (!name || !email) {
-          throw new Error('Name or email not found');
-      }
-      const avatarUrl = avatars.getInitials(name);
+//       const accountData = await account.get();
+//       const name = accountData.name;
+//       const email = accountData.email;
+//       const id = accountData.$id;
+//       if (!name || !email) {
+//           throw new Error('Name or email not found');
+//       }
+//       const avatarUrl = avatars.getInitials(name);
 
-      // Save user data to the database
-      const newUser = await saveUserToDB({
-          accountId: id,
-          name: name, // Save the retrieved name
-          email: email, // Save the retrieved email
-          username: name,
-          imageUrl: avatarUrl
-      });
-      console.log(newUser);
-      return newUser;
-  } catch (error) {
-      console.log(error);
-      return error;
-  }
-}
+//       // Save user data to the database
+//       const newUser = await saveUserToDB({
+//           accountId: id,
+//           name: name, // Save the retrieved name
+//           email: email, // Save the retrieved email
+//           username: name,
+//           imageUrl: avatarUrl
+//       });
+//       console.log(newUser);
+//       return newUser;
+//   } catch (error) {
+//       console.log(error);
+//       return error;
+//   }
+// }
 
 export async function saveUserToDB(user:{
     accountId:string,

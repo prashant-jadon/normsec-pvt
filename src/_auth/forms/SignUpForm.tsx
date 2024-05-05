@@ -10,7 +10,7 @@ import { SignUpValidation } from '@/lib/Validation'
 import Loader from '@/components/shared/Loader'
 import { Link, useNavigate } from 'react-router-dom'
 import { useToast } from "@/components/ui/use-toast"
-import { useCreatUserAccount, useCreatUserAccountWithGoogle, useSignInAccount } from '@/lib/react-query/queriesAndMutations'
+import { useCreatUserAccount, useSignInAccount } from '@/lib/react-query/queriesAndMutations'
 import { useUserContext } from '@/context/AuthContext'
 
 
@@ -19,7 +19,7 @@ const SignUpForm = () => {
   const { toast } = useToast();
   const {checkAuthUser} = useUserContext();
     const {mutateAsync:createUserAccount,isPending:isCreatingUser} = useCreatUserAccount();
-    const {mutateAsync:createUserAccountwithgoogle,isPending:isCreatingUserwithgoogle} = useCreatUserAccountWithGoogle();
+    // const {mutateAsync:createUserAccountwithgoogle,isPending:isCreatingUserwithgoogle} = useCreatUserAccountWithGoogle();
 
     
 
@@ -47,13 +47,8 @@ const SignUpForm = () => {
           });
         }
 
-        const withgoogle = await createUserAccountwithgoogle();
-        if(!newUser){
-          return  toast({
-            title: "Sign Up Failed.Please try again",
-          });
-        }
-        console.log(withgoogle)
+        // const withgoogle = await createUserAccountwithgoogle();
+        // console.log(withgoogle)
 
 
       
@@ -151,7 +146,7 @@ const SignUpForm = () => {
                 }
               </Button>
 
-              <Button type="submit" className='shad-button_primary'>
+              {/* <Button type="submit" className='shad-button_primary'>
                 {isCreatingUserwithgoogle?(
                   <div className='flex-center gap-2'>
                     
@@ -161,7 +156,7 @@ const SignUpForm = () => {
                 ):
                 "Sign Up with google"
                 }
-              </Button>
+              </Button> */}
               <p className='text-small-regular text-light-2 text-center mt-2'>
                 Already have an account?
                 <Link to="/signin" className='text-primary-500 text-small-semibold ml-1'>Log In</Link>
