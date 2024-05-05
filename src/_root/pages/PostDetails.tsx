@@ -27,6 +27,13 @@ const PostDetails = () => {
     (userPost) => userPost.$id !== id
   );
 
+      // Function to convert URLs in text to clickable links
+      const makeLinksClickable = (text: string) => {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+    };
+
+
   const handleDeletePost = () => {
     deletePost({ postId: id, imageId: post?.imageId });
     navigate(-1);
@@ -120,8 +127,9 @@ const PostDetails = () => {
             <hr className="border w-full border-dark-4/80" />
 
             <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
-              <p>{post?.caption}</p>
+            <p className='post-caption' dangerouslySetInnerHTML={{ __html: makeLinksClickable(post.caption) }}></p>
               <ul className="flex gap-1 mt-2">
+                
                 {post?.tags.map((tag: string, index: string) => (
                   <li
                     key={`${tag}${index}`}
