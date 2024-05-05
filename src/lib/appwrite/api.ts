@@ -208,8 +208,8 @@ export function getFilePreview(fileId: string) {
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId,
       fileId,
-      undefined,
-      undefined,
+      100,
+      100,
       undefined,
       90,
       undefined,undefined,undefined,undefined,undefined,undefined,ImageFormat.Webp
