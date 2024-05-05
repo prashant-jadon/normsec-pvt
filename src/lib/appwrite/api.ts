@@ -40,24 +40,19 @@ export async function signInWithGoogle() {
       );
 
       console.log(googleOAuthSession);
-      // Retrieve user data after authentication
+    
       const accountData = await account.get();
-
-      // Extracting name and email from the account data
       const name = accountData.name;
       const email = accountData.email;
-
-      // If name or email is not found, throw an error
+      const id = accountData.$id;
       if (!name || !email) {
           throw new Error('Name or email not found');
       }
-
-      // Generate avatar URL
       const avatarUrl = avatars.getInitials(name);
 
       // Save user data to the database
       const newUser = await saveUserToDB({
-          accountId: accountData.$id,
+          accountId: id,
           name: name, // Save the retrieved name
           email: email, // Save the retrieved email
           username: name,
