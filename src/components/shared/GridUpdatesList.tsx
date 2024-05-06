@@ -14,6 +14,18 @@ const GridUpdatesList = ({
 }: GridUpdatesListProps) => {
   const { user } = useUserContext();
 
+      // Function to convert URLs in text to clickable links
+      const makeLinksClickable = (text: string) => {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+    };
+
+    // Function to truncate text to a specified length
+    const truncateText = (text: string, maxLength: number) => {
+        if (text.length <= maxLength) return text;
+        return text.slice(0, maxLength) + '...';
+    };
+
   return (
     <div>
       {updates.map((update) => (
@@ -27,7 +39,8 @@ const GridUpdatesList = ({
               />
             )}
             <div className="post-content p-4">
-              <p className="post-caption">{update.captionRequest}</p>
+              <p className='text-lg font-semibold text-gray-900' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(update.captionRequest, 30)) }}></p>
+
             </div>
           </Link>
           {showStats && (
