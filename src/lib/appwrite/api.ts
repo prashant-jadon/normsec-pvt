@@ -129,6 +129,8 @@ export async function createPost(post:INewPost) {
       const uploadedFile = await uploadFile(post.file[0]);
       if(!uploadedFile) throw Error;
       const fileUrl = getFilePreview(uploadedFile.$id);
+      const fileUrlforpdf =  uploadPdfToStorage(post.file[0]);
+      console.log(fileUrlforpdf);
       if(!fileUrl){
           deleteFile(uploadedFile.$id);
           throw Error;
@@ -143,8 +145,8 @@ export async function createPost(post:INewPost) {
           {
             creator: post.userId,
             caption: post.caption,
-            imageUrl: fileUrl,
-            pdfUrl: fileUrl,
+            imageUrl: fileUrlforpdf,
+            pdfUrl: fileUrlforpdf,
             imageId: uploadedFile.$id,
             location: post.location,
             tags: tags,
@@ -179,6 +181,36 @@ export async function createPost(post:INewPost) {
       console.log(error);
   }
 }
+
+async function uploadPdfToStorage(pdfFile:File) {
+  try {
+      // Upload PDF file to storage
+      const uploadedFile = await storage.createFile(
+          appwriteConfig.storageId,
+          ID.unique(),
+          pdfFile
+      );
+
+      if (!uploadedFile) {
+          throw new Error('Failed to upload PDF to storage');
+      }
+
+      // Get the URL of the uploaded PDF
+      const pdfUrl = getFileURL(uploadedFile.$id);
+
+      return pdfUrl;
+  } catch (error) {
+      console.error('Error uploading PDF:', error);
+      throw error;
+  }
+}
+
+function getFileURL(fileId:string) {
+  // Assuming your storage service provides URLs in a specific format
+  const baseUrl = 'https://your-storage-service.com/files/';
+  return `${baseUrl}${fileId}`;
+}
+
 
 export async function deleteFile(fileId: string) {
   try {
