@@ -128,9 +128,41 @@ export async function createPost(post:INewPost) {
     if (post.file && post.file.length > 0) {
       const uploadedFile = await uploadFile(post.file[0]);
       if(!uploadedFile) throw Error;
+      if(uploadedFile.mimeType == "'application/pdf'"){
+          const fileUrlforpdf =  await uploadPdfToStorage(post.file[0]);
+          const fileUrl = getFilePreview(uploadedFile.$id);
+          if(!fileUrl){
+              deleteFile(uploadedFile.$id);
+              throw Error;
+          }
+          console.log(fileUrlforpdf);
+
+    
+          const tags = post.tags?.replace(/ /g, "").split(",") || [];
+    
+          const newPost = await databases.createDocument(
+              appwriteConfig.databaseId,
+              appwriteConfig.postCollectionId,
+              ID.unique(),
+              {
+                creator: post.userId,
+                caption: post.caption,
+                imageUrl: null,
+                pdfUrl: (fileUrlforpdf).toString || null,
+                imageId: uploadedFile.$id,
+                location: post.location,
+                tags: tags,
+              }
+            );
+            if (!newPost) {
+              await deleteFile(uploadedFile.$id);
+              throw Error;
+            }
+        
+            return newPost;
+        
+      } if(uploadedFile.mimeType == "image/*"){
       const fileUrl = getFilePreview(uploadedFile.$id);
-      const fileUrlforpdf =  await uploadPdfToStorage(post.file[0]);
-      console.log(fileUrlforpdf);
       if(!fileUrl){
           deleteFile(uploadedFile.$id);
           throw Error;
@@ -145,8 +177,32 @@ export async function createPost(post:INewPost) {
           {
             creator: post.userId,
             caption: post.caption,
-            imageUrl: (fileUrlforpdf).toString,
-            pdfUrl: (fileUrlforpdf).toString,
+            imageUrl: fileUrl,
+            pdfUrl: null,
+            imageId: uploadedFile.$id,
+            location: post.location,
+            tags: tags,
+          }
+        );
+        if (!newPost) {
+          await deleteFile(uploadedFile.$id);
+          throw Error;
+        }
+    
+        return newPost;
+      } 
+     
+
+      const tags = post.tags?.replace(/ /g, "").split(",") || [];
+      const newPost = await databases.createDocument(
+          appwriteConfig.databaseId,
+          appwriteConfig.postCollectionId,
+          ID.unique(),
+          {
+            creator: post.userId,
+            caption: post.caption,
+            imageUrl: null,
+            pdfUrl: null,
             imageId: uploadedFile.$id,
             location: post.location,
             tags: tags,
@@ -159,24 +215,6 @@ export async function createPost(post:INewPost) {
     
         return newPost;
   }
-      const tags = post.tags?.replace(/ /g, "").split(",") || [];
-
-      const newPost = await databases.createDocument(
-          appwriteConfig.databaseId,
-          appwriteConfig.postCollectionId,
-          ID.unique(),
-          {
-            creator: post.userId,
-            caption: post.caption,
-            imageUrl: null,
-            pdfUrl:null,
-            imageId: '',
-            location: post.location,
-            tags: tags,
-          }
-        );
-    
-        return newPost;
   } catch (error) {
       console.log(error);
   }
@@ -186,7 +224,7 @@ async function uploadPdfToStorage(pdfFile:File) {
   try {
       // Upload PDF file to storage
       const uploadedFile = await storage.createFile(
-          appwriteConfig.storageId,
+          appwriteConfig.pdfstorageId,
           ID.unique(),
           pdfFile
       );
@@ -207,8 +245,8 @@ async function uploadPdfToStorage(pdfFile:File) {
 
 function getFileURL(fileId:string) {
   // Assuming your storage service provides URLs in a specific format
-  const baseUrl = 'https://your-storage-service.com/files/';
-  return `${baseUrl}${fileId}`;
+  const baseUrl = 'https://cloud.appwrite.io/v1/storage/buckets/6638d7860019c9f9a0e1/files/';
+  return `${baseUrl}${fileId}/view?project=662ba35a8c8ad770d67c`;
 }
 
 
@@ -246,7 +284,22 @@ export function getFilePreview(fileId: string) {
       undefined,
       90
     )
+    
+    if (!fileUrl) throw Error;
 
+    return fileUrl;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function getFilePreviewForPDf(fileId: string) {
+  try {
+
+    const fileUrl = storage.getFilePreview(
+      appwriteConfig.storageId,
+      fileId
+    )
     
     if (!fileUrl) throw Error;
 
@@ -290,6 +343,8 @@ export async function likePost(postId: string, likesArray: string[]) {
     console.log(error);
   }
 }
+
+
 
 export async function likeUpdate(postId: string, likesArray: string[]) {
   try {
