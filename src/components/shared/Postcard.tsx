@@ -3,8 +3,7 @@ import { formatDateString } from '@/lib/utils';
 import { Models } from 'appwrite';
 import { Link } from 'react-router-dom';
 import PostStats from './PostStats';
-import PdfPreview from './pdfPreview';
-
+import { Document } from 'react-pdf'
 
 type PostCardProps ={
     post: Models.Document;
@@ -82,10 +81,9 @@ const Postcard = ({post}: PostCardProps) => {
                         className='w-full h-auto rounded-lg mt-4'
                         alt='post image'/>
                 }
-                
-              
+                <Document externalLinkTarget={post.urlPdf}/>
             </Link>
-            <PdfPreview pdfUrl={post.pdfUrl}/> 
+
             <PostStats post={post} userId={user.id}/>
         </div>
     )

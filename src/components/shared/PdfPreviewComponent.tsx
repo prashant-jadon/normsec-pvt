@@ -1,7 +1,7 @@
 type PdfProp= {
     pdfUrl: string;
 }
-const PdfPreview = ({ pdfUrl }:PdfProp) => {
+const PdfPreviewComponent = ({ pdfUrl }:PdfProp) => {
   return (
     <div>
         <iframe src={pdfUrl} title="PDF Viewer" style={{ width: '600px', height: '500px', border: '0' }}></iframe>
@@ -9,4 +9,4 @@ const PdfPreview = ({ pdfUrl }:PdfProp) => {
   )
 }
 
-export default PdfPreview
+export default PdfPreviewComponent
