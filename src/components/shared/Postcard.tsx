@@ -3,6 +3,8 @@ import { formatDateString } from '@/lib/utils';
 import { Models } from 'appwrite';
 import { Link } from 'react-router-dom';
 import PostStats from './PostStats';
+import PdfPreview from './pdfPreview';
+
 
 type PostCardProps ={
     post: Models.Document;
@@ -81,10 +83,9 @@ const Postcard = ({post}: PostCardProps) => {
                         alt='post image'/>
                 }
                 
-
+              
             </Link>
-            <p className='text-lg font-semibold text-gray-900'>{post?.pdfUrl}</p>
-
+            <PdfPreview pdfUrl={post.pdfUrl}/> 
             <PostStats post={post} userId={user.id}/>
         </div>
     )
