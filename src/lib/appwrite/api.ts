@@ -144,6 +144,7 @@ export async function createPost(post:INewPost) {
             creator: post.userId,
             caption: post.caption,
             imageUrl: fileUrl,
+            pdfUrl: fileUrl,
             imageId: uploadedFile.$id,
             location: post.location,
             tags: tags,
@@ -166,6 +167,7 @@ export async function createPost(post:INewPost) {
             creator: post.userId,
             caption: post.caption,
             imageUrl: null,
+            pdfUrl:null,
             imageId: '',
             location: post.location,
             tags: tags,
@@ -210,8 +212,7 @@ export function getFilePreview(fileId: string) {
       100,
       100,
       undefined,
-      90,
-      undefined,undefined,undefined,undefined,undefined,undefined,ImageFormat.Webp
+      90
     )
 
     

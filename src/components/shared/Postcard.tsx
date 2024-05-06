@@ -36,6 +36,7 @@ const Postcard = ({post}: PostCardProps) => {
                             className='rounded-full w-12 h-12 lg:w-16 lg:h-16 mr-3'/>
                     </Link>
 
+
                     <div className='flex flex-col'>
                         <p className='text-lg font-bold text-gray-800'>
                             {post.creator.name}
@@ -79,6 +80,9 @@ const Postcard = ({post}: PostCardProps) => {
                         className='w-full h-auto rounded-lg mt-4'
                         alt='post image'/>
                 }
+
+<a>{post?.pdfUrl}</a>
+
             </Link>
 
             <PostStats post={post} userId={user.id}/>
