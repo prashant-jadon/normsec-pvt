@@ -81,7 +81,7 @@ const Postcard = ({post}: PostCardProps) => {
                         alt='post image'/>
                 }
 
-<a>{post?.pdfUrl}</a>
+<a className='post-caption'>{post?.pdfUrl}</a>
 
             </Link>
 
