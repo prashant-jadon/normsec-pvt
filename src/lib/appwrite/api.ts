@@ -161,7 +161,6 @@ export async function createPost(post:INewPost) {
       if (post.file && post.file.length > 0) {
       const uploadedFile = await uploadFile(post.file[0]);
       if(!uploadedFile) throw Error;
-      const fileUrl = getFilePreview(uploadedFile.$id);
 
       const newPost = await databases.createDocument(
           appwriteConfig.databaseId,
