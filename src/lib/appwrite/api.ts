@@ -145,8 +145,8 @@ export async function createPost(post:INewPost) {
           {
             creator: post.userId,
             caption: post.caption,
-            imageUrl: (await fileUrlforpdf).toString,
-            pdfUrl: (await fileUrlforpdf).toString,
+            imageUrl: (fileUrlforpdf).toString,
+            pdfUrl: (fileUrlforpdf).toString,
             imageId: uploadedFile.$id,
             location: post.location,
             tags: tags,
