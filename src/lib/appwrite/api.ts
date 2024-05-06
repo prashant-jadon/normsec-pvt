@@ -158,6 +158,10 @@ export async function createPost(post:INewPost) {
         return newPost;
   }
       const tags = post.tags?.replace(/ /g, "").split(",") || [];
+      if (post.file && post.file.length > 0) {
+      const uploadedFile = await uploadFile(post.file[0]);
+      if(!uploadedFile) throw Error;
+      const fileUrl = getFilePreview(uploadedFile.$id);
 
       const newPost = await databases.createDocument(
           appwriteConfig.databaseId,
@@ -167,14 +171,16 @@ export async function createPost(post:INewPost) {
             creator: post.userId,
             caption: post.caption,
             imageUrl: null,
-            pdfUrl:null,
+            pdfUrl: fileUrl,
             imageId: '',
             location: post.location,
             tags: tags,
           }
         );
+        
     
         return newPost;
+      }
   } catch (error) {
       console.log(error);
   }
