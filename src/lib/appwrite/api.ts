@@ -128,7 +128,7 @@ export async function createPost(post:INewPost) {
     if (post.file && post.file.length > 0) {
       const uploadedFile = await uploadFile(post.file[0]);
       if(!uploadedFile) throw Error;
-      if(uploadedFile.mimeType == "'application/pdf'"){
+      if(uploadedFile.mimeType.startsWith('application')){
           const fileUrlforpdf =  await uploadPdfToStorage(post.file[0]);
           const fileUrl = getFilePreview(uploadedFile.$id);
           if(!fileUrl){
@@ -161,7 +161,7 @@ export async function createPost(post:INewPost) {
         
             return newPost;
         
-      } if(uploadedFile.mimeType == "image/*"){
+      } if(uploadedFile.mimeType.startsWith('image')){
       const fileUrl = getFilePreview(uploadedFile.$id);
       if(!fileUrl){
           deleteFile(uploadedFile.$id);
