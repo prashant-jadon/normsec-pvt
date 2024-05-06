@@ -81,7 +81,7 @@ const Postcard = ({post}: PostCardProps) => {
                         className='w-full h-auto rounded-lg mt-4'
                         alt='post image'/>
                 }
-                <Document file={post.urlPdf}/>
+                <Document file={post.urlPdf} loading/>
             </Link>
 
             <PostStats post={post} userId={user.id}/>
