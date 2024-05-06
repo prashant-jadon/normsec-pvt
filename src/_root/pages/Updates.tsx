@@ -15,8 +15,7 @@ const SearchResults = ({ isSearchFetching, searchedUpdates }: SearchResultProps)
   if (isSearchFetching) {
     return <Loader />;
   } else if (searchedUpdates && searchedUpdates.documents.length > 0) {
-    return < GridUpdatesList update={searchedUpdates.documents}/>;
-   
+    return <GridUpdatesList updates={searchedUpdates.documents} />;
   } else {
     return (
       <p className="text-light-4 mt-10 text-center w-full">No results found</p>
@@ -96,9 +95,8 @@ const Updates = () => {
         ) : shouldShowUpdates ? (
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
-          updates.pages.map((item) => (
-            <GridUpdatesList update={item} />
-            
+          updates.pages.map((item, index) => (
+            <GridUpdatesList key={`page-${index}`} updates={item.documents} />
           ))
         )}
       </div>
