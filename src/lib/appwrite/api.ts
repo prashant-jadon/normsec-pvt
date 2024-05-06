@@ -144,7 +144,7 @@ export async function createPost(post:INewPost) {
             creator: post.userId,
             caption: post.caption,
             imageUrl: fileUrl,
-            pdfUrl: uploadedFile,
+            pdfUrl: fileUrl,
             imageId: uploadedFile.$id,
             location: post.location,
             tags: tags,
@@ -158,9 +158,6 @@ export async function createPost(post:INewPost) {
         return newPost;
   }
       const tags = post.tags?.replace(/ /g, "").split(",") || [];
-      if (post.file && post.file.length > 0) {
-      const uploadedFile = await uploadFile(post.file[0]);
-      if(!uploadedFile) throw Error;
 
       const newPost = await databases.createDocument(
           appwriteConfig.databaseId,
@@ -170,16 +167,14 @@ export async function createPost(post:INewPost) {
             creator: post.userId,
             caption: post.caption,
             imageUrl: null,
-            pdfUrl: uploadedFile,
+            pdfUrl:null,
             imageId: '',
             location: post.location,
             tags: tags,
           }
         );
-        
     
         return newPost;
-      }
   } catch (error) {
       console.log(error);
   }
@@ -202,7 +197,6 @@ export async function uploadFile(file:File) {
           ID.unique(),
           file
       );
-      console.log(uploadedFile);
       return uploadedFile;
   } catch (error) {
       console.log(error);
