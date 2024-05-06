@@ -15,9 +15,9 @@ const GridUpdatesList = ({
   const { user } = useUserContext();
 
   return (
-    <div className="grid-container">
+    <div>
       {updates.map((update) => (
-        <div key={update.$id} className="post-card">
+        <div key={update.$id} className="post-card mb-8">
           <Link to={`/updates/${update.$id}`} className="block">
             {update.imageUrlRequest && (
               <img

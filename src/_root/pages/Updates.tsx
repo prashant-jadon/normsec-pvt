@@ -86,7 +86,7 @@ const Updates = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-9">
+      <div className="flex flex-col gap-9">
         {shouldShowSearchResults ? (
           <SearchResults
             isSearchFetching={isSearchFetching}
