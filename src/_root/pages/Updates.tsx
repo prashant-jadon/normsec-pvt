@@ -97,7 +97,7 @@ const Updates = () => {
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
           updates.pages.map((item) => (
-            <GridUpdatesList key={`page-${item.id}`} update={item} />
+            <GridUpdatesList update={item} />
             
           ))
         )}
