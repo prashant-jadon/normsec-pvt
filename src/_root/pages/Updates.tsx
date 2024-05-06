@@ -1,4 +1,5 @@
 import GridUpdatesList from "@/components/shared/GridUpdatesList";
+import Postcard from "@/components/shared/Postcard";
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
 import { useGetUpdates, useSearchUpdates } from "@/lib/react-query/queriesAndMutations";
@@ -96,7 +97,8 @@ const Updates = () => {
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
           updates.pages.map((item, index) => (
-            <GridUpdatesList key={`page-${index}`} updates={item.documents} />
+            <Postcard post={item.documents} key={item.documents.caption}/>
+           
           ))
         )}
       </div>
