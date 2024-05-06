@@ -1,5 +1,4 @@
 import GridUpdatesList from "@/components/shared/GridUpdatesList";
-import Postcard from "@/components/shared/Postcard";
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
 import { useGetUpdates, useSearchUpdates } from "@/lib/react-query/queriesAndMutations";
@@ -16,7 +15,8 @@ const SearchResults = ({ isSearchFetching, searchedUpdates }: SearchResultProps)
   if (isSearchFetching) {
     return <Loader />;
   } else if (searchedUpdates && searchedUpdates.documents.length > 0) {
-    return <GridUpdatesList updates={searchedUpdates.documents} />;
+    return < GridUpdatesList update={searchedUpdates.documents}/>;
+   
   } else {
     return (
       <p className="text-light-4 mt-10 text-center w-full">No results found</p>
@@ -96,8 +96,9 @@ const Updates = () => {
         ) : shouldShowUpdates ? (
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
-          updates.pages.map((item, index) => (
-            <Postcard post={item.documents} key={`page-${index}`}/>
+          updates.pages.map((item) => (
+            <GridUpdatesList key={`page-${item.id}`} update={item} />
+            
           ))
         )}
       </div>
