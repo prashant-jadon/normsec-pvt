@@ -39,7 +39,7 @@ const GridUpdatesList = ({
               />
             )}
             <div className="post-content p-4">
-              <p className='text-lg font-semibold text-gray-900' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(update.captionRequest, 30)) }}></p>
+              <p className='post-caption' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(update.captionRequest, 50)) }}></p>
 
             </div>
           </Link>
