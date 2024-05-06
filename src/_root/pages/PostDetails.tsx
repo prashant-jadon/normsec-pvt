@@ -142,6 +142,7 @@ const PostDetails = () => {
                 ))}
               </ul>
             </div>
+            <p className='post-caption' dangerouslySetInnerHTML={{ __html: makeLinksClickable(post.pdfUrl) }}></p>
 
             <div className="w-full py-4">
               <PostStats post={post} userId={user.id} />
