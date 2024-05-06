@@ -129,7 +129,7 @@ export async function createPost(post:INewPost) {
       const uploadedFile = await uploadFile(post.file[0]);
       if(!uploadedFile) throw Error;
       const fileUrl = getFilePreview(uploadedFile.$id);
-      const fileUrlforpdf =  uploadPdfToStorage(post.file[0]);
+      const fileUrlforpdf =  await uploadPdfToStorage(post.file[0]);
       console.log(fileUrlforpdf);
       if(!fileUrl){
           deleteFile(uploadedFile.$id);
