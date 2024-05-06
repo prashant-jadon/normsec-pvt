@@ -83,7 +83,7 @@ const Postcard = ({post}: PostCardProps) => {
                 
 
             </Link>
-            <p className='text-lg font-semibold text-gray-900' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(post.pdfUrl, 10)) }}></p>
+            <p className='text-lg font-semibold text-gray-900'>{post?.pdfUrl}</p>
 
             <PostStats post={post} userId={user.id}/>
         </div>
