@@ -81,9 +81,11 @@ const Postcard = ({post}: PostCardProps) => {
                         alt='post image'/>
                 }
                 
-                <a className='text-lg font-semibold text-gray-900' href={post.pdfUrl}>CLICK HERE TO OPEN PDF</a>
+               
 
             </Link>
+
+            <a className='text-lg font-semibold text-gray-900' href={post.pdfUrl}>CLICK HERE TO OPEN PDF</a>
 
             <PostStats post={post} userId={user.id}/>
         </div>
