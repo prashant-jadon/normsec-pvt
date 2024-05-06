@@ -97,8 +97,7 @@ const Updates = () => {
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
           updates.pages.map((item, index) => (
-            <Postcard post={item.documents} key={item.documents.caption}/>
-           
+            <Postcard post={item.documents} key={`page-${index}`}/>
           ))
         )}
       </div>
