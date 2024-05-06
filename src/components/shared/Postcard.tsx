@@ -4,7 +4,6 @@ import { Models } from 'appwrite';
 import { Link } from 'react-router-dom';
 import PostStats from './PostStats';
 import { Document } from 'react-pdf'
-import PdfPreviewComponent from './PdfPreviewComponent';
 
 type PostCardProps ={
     post: Models.Document;
