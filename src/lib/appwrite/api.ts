@@ -144,7 +144,7 @@ export async function createPost(post:INewPost) {
             creator: post.userId,
             caption: post.caption,
             imageUrl: fileUrl,
-            pdfUrl: fileUrl,
+            pdfUrl: uploadedFile,
             imageId: uploadedFile.$id,
             location: post.location,
             tags: tags,
@@ -171,7 +171,7 @@ export async function createPost(post:INewPost) {
             creator: post.userId,
             caption: post.caption,
             imageUrl: null,
-            pdfUrl: fileUrl,
+            pdfUrl: uploadedFile,
             imageId: '',
             location: post.location,
             tags: tags,
@@ -203,6 +203,7 @@ export async function uploadFile(file:File) {
           ID.unique(),
           file
       );
+      console.log(uploadedFile);
       return uploadedFile;
   } catch (error) {
       console.log(error);
