@@ -13,20 +13,14 @@ import { z } from "zod";
 
 const ResetPassword = () => {
     const { toast } = useToast();   
-    
     const navigate = useNavigate();
     const {mutateAsync:resetpassword,isPending:isResetLoading} = useResetPassword();
-
-
-
     const form = useForm<z.infer<typeof SignInValidation>>({
         resolver: zodResolver(SignInValidation),
         defaultValues: {
           email: "",
         },
       })
-
-
       async function onSubmit(values: z.infer<typeof SignInValidation>) {
        const session = await resetpassword(values.email);
        console.log(session);
