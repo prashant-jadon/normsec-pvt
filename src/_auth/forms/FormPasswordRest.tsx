@@ -5,7 +5,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { UpdateRecoverValidation } from "@/lib/Validation";
 import { account } from "@/lib/appwrite/config";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
