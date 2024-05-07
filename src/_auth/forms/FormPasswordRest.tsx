@@ -1,24 +1,21 @@
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { UpdateRecoverValidation } from "@/lib/Validation";
 import { account } from "@/lib/appwrite/config";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import { UpdateRecoverValidation } from '@/lib/Validation';
 
 const FormPasswordRest = () => {
-
     const { toast } = useToast();
     const navigate = useNavigate();
     
-    const [password, setPassword] = useState({
-        newPassword: "",
-        repeatPassword: "",
-    });
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     
     const form = useForm<z.infer<typeof UpdateRecoverValidation>>({
         resolver: zodResolver(UpdateRecoverValidation),
@@ -29,11 +26,11 @@ const FormPasswordRest = () => {
     });
 
     async function onSubmit(values: z.infer<typeof UpdateRecoverValidation>) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get('userId');
-        const secret = urlParams.get('secret');
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const userId = urlSearchParams.get('userId');
+        const secret = urlSearchParams.get('secret');
         
-        if (userId === null || secret === null) {
+        if (!userId || !secret) {
             return;
         }
         
@@ -41,14 +38,13 @@ const FormPasswordRest = () => {
             return toast({ title: "Passwords do not match" });
         }
         
-        const session = await account.updateRecovery(userId, secret, values.password);
-        
-        if (!session) {
-            return toast({ title: "Sign in failed. Please try again." });
+        try {
+            await account.updateRecovery(userId, secret, values.password);
+            form.reset();
+            navigate('/signin');
+        } catch (error) {
+            toast({ title: 'Reset password failed. Please try again.' });
         }
-        
-        form.reset();
-        navigate('/signin');
     }
 
     return (
@@ -69,7 +65,8 @@ const FormPasswordRest = () => {
                                         type='password' 
                                         className='shad-input' 
                                         {...field} 
-                                        onChange={(e) => setPassword({ ...password, newPassword: e.target.value })} 
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -81,13 +78,14 @@ const FormPasswordRest = () => {
                         name="repassword"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Repeat Password</FormLabel>
+                                <FormLabel>Confirm Password</FormLabel>
                                 <FormControl>
                                     <Input 
                                         type='password' 
                                         className='shad-input' 
                                         {...field} 
-                                        onChange={(e) => setPassword({ ...password, repeatPassword: e.target.value })} 
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -98,7 +96,7 @@ const FormPasswordRest = () => {
                 </form>
             </div>
         </Form>
-    )
+    );
 }
 
 export default FormPasswordRest;
