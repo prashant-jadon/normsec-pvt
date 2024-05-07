@@ -12,7 +12,6 @@ import Followings from './_root/pages/Following';
 import Updates from './_root/pages/Updates';
 import UpdateDetails from './_root/pages/UpdateDetails';
 import ResetPassword from './_auth/forms/ResetPassword';
-import FormPasswordRest from './_auth/forms/FormPasswordRest';
 
 
 const App = () => {
