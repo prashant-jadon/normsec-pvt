@@ -1,56 +1,54 @@
-import './globals.css';
-import {Routes,Route} from 'react-router-dom';
-import SignInForm from './_auth/forms/SignInForm';
-import { AllUsers, CreatePost, EditPost, Explore, Home, PostDetails, Profile, Saved } from './_root/pages';
-import SignUpForm from './_auth/forms/SignUpForm';
-import AuthLayout from './_auth/AuthLayout';
-import RootLayout from './_root/RootLayout';
-import { Toaster } from './components/ui/toaster';
-import UpdateProfile from './_root/pages/UpdateProfile';
-import Followers from './_root/pages/Followers';
-import Followings from './_root/pages/Following';
-import Updates from './_root/pages/Updates';
-import UpdateDetails from './_root/pages/UpdateDetails';
-import ResetPassword from './_auth/forms/ResetPassword';
-import FormPasswordRest from './_auth/forms/FormPasswordRest';
+import  { useState } from 'react';
+import { account } from './lib/appwrite/config';
 
+const FormPasswordRest = () => {
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-const App = () => {
-  return (
-    <main className="flex h-screen">
-      <Routes >
-        <Route element={<AuthLayout/>}>
-          <Route path='/signin' element={<SignInForm/>}/>
-          <Route path='/signup' element={<SignUpForm/>}/>
-          <Route path='/resetpassword' element={<ResetPassword/>}/>
-          <Route path='/setresetpassword' element={<FormPasswordRest/>}/>
-        </Route>
-        {/*public routes*/}
-        
-        {/*private routes*/}
-       
-        <Route element={<RootLayout/>}>
-        <Route index element={<Home />} />
-          <Route path="/explore" element={<Explore />} />
-          <Route path="/saved" element={<Saved />} />
-          <Route path="/all-users" element={<AllUsers />} />
-          <Route path="/create-post" element={<CreatePost />} />
-          <Route path="/update-post/:id" element={<EditPost />} />
-          <Route path="/posts/:id" element={<PostDetails />} />
-          <Route path="/profile/:id/*" element={<Profile />} />
-          <Route path="/update-profile/:id" element={<UpdateProfile />} />
-          <Route path="/:id/followers" element={<Followers/>} />
-          <Route path="/:id/followings" element={<Followings/>} />
-          <Route path="/updates" element={<Updates/>} />
-          <Route path="/updates/:id" element={<UpdateDetails />} />
+    const submit = async () => {
+      let urlSearchParams = new URLSearchParams(window.location.search);
+      let secret = urlSearchParams.get("secret");
+      let userId = urlSearchParams.get("userId");
 
-          
-        </Route>
+      if (userId && secret) {
+        try {
+            await account.updateRecovery(userId, secret, password);
+            window.location.href = "/#/login";
+        } catch (error) {
+            alert(error);
+        }
+    } else {
+        alert('User ID or secret not found in the URL.');
+    }
+};
 
-      </Routes>
-      <Toaster />
-    </main>
-  )
-}
+    return (
+        <div>
+            <h1>Reset your password</h1>
 
-export default App
+            <form onSubmit={submit}>
+                <label htmlFor="password"><b>New Password</b></label>
+                <input
+                    type="password"
+                    placeholder="Enter New Password"
+                    name="password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    required />
+
+                <label htmlFor="confirmPassword"><b>Confirm Password</b></label>
+                <input
+                    type="password"
+                    placeholder="Confirm Password"
+                    name="confirmPassword"
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    required />
+
+                <button className="button" type="submit">Reset Password</button>
+            </form>
+        </div>
+    );
+};
+
+export default FormPasswordRest;
