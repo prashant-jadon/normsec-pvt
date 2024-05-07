@@ -3,7 +3,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form"
-import { SignInValidation } from "@/lib/Validation";
+import { ResetPassValidation } from "@/lib/Validation";
 import { useResetPassword } from "@/lib/react-query/queriesAndMutations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
@@ -15,13 +15,14 @@ const ResetPassword = () => {
     const { toast } = useToast();   
     const navigate = useNavigate();
     const {mutateAsync:resetpassword,isPending:isResetLoading} = useResetPassword();
-    const form = useForm<z.infer<typeof SignInValidation>>({
-        resolver: zodResolver(SignInValidation),
+    const form = useForm<z.infer<typeof ResetPassValidation>>({
+        resolver: zodResolver(ResetPassValidation),
         defaultValues: {
           email: "",
         },
       })
-      async function onSubmit(values: z.infer<typeof SignInValidation>) {
+      async function onSubmit(values: z.infer<typeof ResetPassValidation>) {
+        console.log(values.email);
        const session = await resetpassword(values.email);
        console.log(session);
 
