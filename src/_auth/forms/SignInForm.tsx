@@ -9,7 +9,7 @@ import { SignInValidation } from '@/lib/Validation'
 import Loader from '@/components/shared/Loader'
 import { Link, useNavigate } from 'react-router-dom'
 import { useToast } from "@/components/ui/use-toast"
-import {  useSignInAccount } from '@/lib/react-query/queriesAndMutations'
+import { useSignInAccount } from '@/lib/react-query/queriesAndMutations'
 import { useUserContext } from '@/context/AuthContext'
 
 
@@ -18,6 +18,7 @@ const SignInForm = () => {
   const { toast } = useToast();
   const {checkAuthUser,isLoading: isUserLoading} = useUserContext();
     const {mutateAsync:signInAccount} = useSignInAccount();
+   
     
     const navigate = useNavigate();
 
@@ -111,6 +112,8 @@ const SignInForm = () => {
               </p>
 
             </form>
+
+            <Link to="/resetpassword" className='text-primary-500 text-small-semibold ml-1'>I Forgot my password</Link>
     </div>
   </Form>
   )

@@ -30,6 +30,16 @@ export async function createUserAccount(user:INewUser){
     }
 }
 
+
+export async function resetPassword(email:string){
+  try {
+    const resetpassword = await account.createRecovery(email,"https://normsec.me");
+    if(!resetpassword) throw Error;
+    return resetpassword;
+  } catch (error) {
+    console.log(error);
+  }
+}
 // export async function signInWithGoogle() {
 //   try {
 //       // Authenticate with Google OAuth via Appwrite

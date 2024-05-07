@@ -79,10 +79,7 @@ const Postcard = ({post}: PostCardProps) => {
                     <img src={post.imageUrl}
                         className='w-full h-auto rounded-lg mt-4'
                         alt='post image'/>
-                }
-                
-               
-
+                }   
             </Link>
 
             <a className='text-lg font-semibold text-gray-900' href={post.pdfUrl}>CLICK HERE TO OPEN PDF</a>

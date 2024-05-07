@@ -1,5 +1,5 @@
 import {useQuery,useMutation,useQueryClient,useInfiniteQuery} from '@tanstack/react-query'
-import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getFollowers, getFollowings, getInfinitePosts, getInfiniteUpdates, getPostById, getRecentPosts, getUpdateById, getUserById, getUserPosts, getUserUpdates, getUsers, likePost, likeUpdate, savePost, searchPosts, searchUpdates, signInAccount, signOutAccount, updateFollowingAndFollowers, updatePost, updateUser } from '../appwrite/api'
+import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getFollowers, getFollowings, getInfinitePosts, getInfiniteUpdates, getPostById, getRecentPosts, getUpdateById, getUserById, getUserPosts, getUserUpdates, getUsers, likePost, likeUpdate, resetPassword, savePost, searchPosts, searchUpdates, signInAccount, signOutAccount, updateFollowingAndFollowers, updatePost, updateUser } from '../appwrite/api'
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 
@@ -9,6 +9,12 @@ export const useCreatUserAccount = () => {
         mutationFn:(user:INewUser)=> createUserAccount(user),
 
     })
+}
+
+export const useResetPassword = () =>{
+  return useMutation({
+    mutationFn:(email:string)=> resetPassword(email)
+  })
 }
 
 // export const useCreatUserAccountWithGoogle = () => {

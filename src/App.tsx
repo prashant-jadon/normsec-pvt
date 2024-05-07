@@ -11,6 +11,7 @@ import Followers from './_root/pages/Followers';
 import Followings from './_root/pages/Following';
 import Updates from './_root/pages/Updates';
 import UpdateDetails from './_root/pages/UpdateDetails';
+import ResetPassword from './_auth/forms/ResetPassword';
 
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
         <Route element={<AuthLayout/>}>
           <Route path='/signin' element={<SignInForm/>}/>
           <Route path='/signup' element={<SignUpForm/>}/>
+          <Route path='/resetpassword' element={<ResetPassword/>}/>
         </Route>
         {/*public routes*/}
         
