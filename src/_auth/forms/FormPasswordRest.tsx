@@ -2,10 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { useUserContext } from "@/context/AuthContext";
 import { UpdateRecoverValidation } from "@/lib/Validation";
 import { account } from "@/lib/appwrite/config";
-import { useUpdatePassword } from "@/lib/react-query/queriesAndMutations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form"
@@ -15,8 +13,7 @@ import { z } from "zod";
 const FormPasswordRest = () => {
 
     const { toast } = useToast();
-    const {checkAuthUser} = useUserContext();
-      const {mutateAsync:updateUserPassword,isPending:isCreatingUser} = useUpdatePassword();
+ 
       const navigate = useNavigate();
   
 
@@ -95,17 +92,7 @@ const FormPasswordRest = () => {
 
                        
          
-          <Button type="submit" className='shad-button_primary'>
-            {isCreatingUser?(
-              <div className='flex-center gap-2'>
-                
-                <Loader/>
-                Loading...
-              </div>
-            ):
-            "Sign Up"
-            }
-          </Button>
+          <Button type="submit" className='shad-button_primary'>"Sign Up" </Button>
 
         </form>
 </div>
