@@ -15,6 +15,8 @@ const ResetPassword = () => {
     const { toast } = useToast();   
     const navigate = useNavigate();
     const {mutateAsync:resetpassword,isPending:isResetLoading} = useResetPassword();
+
+    
     const form = useForm<z.infer<typeof ResetPassValidation>>({
         resolver: zodResolver(ResetPassValidation),
         defaultValues: {
@@ -32,7 +34,7 @@ const ResetPassword = () => {
 
        if(session){
         form.reset();
-        navigate('/');
+        navigate('/sigin');
        }else{
         toast({title:'Reset password fail Failed.Please try again'})
        }

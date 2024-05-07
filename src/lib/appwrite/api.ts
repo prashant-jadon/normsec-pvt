@@ -33,9 +33,19 @@ export async function createUserAccount(user:INewUser){
 
 export async function resetPassword(email:string){
   try {
-    const resetpassword = await account.createRecovery(email,"https://normsec.me");
+    const resetpassword = await account.createRecovery(email,'https://www.normsec.me/setresetpassword');
     if(!resetpassword) throw Error;
     return resetpassword;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function updatePassword(userId:string,secretKey:string,password:string){
+  try {
+    const updateRecovery = await account.updateRecovery(userId,secretKey,password);
+    if(!updateRecovery) throw Error;
+    return updateRecovery;
   } catch (error) {
     console.log(error);
   }

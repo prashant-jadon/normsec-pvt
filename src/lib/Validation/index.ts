@@ -13,6 +13,12 @@ export const SignUpValidation = z.object({
       password: z.string().min(8, { message: "Password must be at least 8 characters.", }).max(80),
     })
 
+    export const UpdateRecoverValidation = z.object({
+      password: z.string().min(8, { message: "Password must be at least 8 characters.", }).max(80),
+      repassword: z.string().min(8, { message: "Password must be at least 8 characters.", }).max(80),
+
+    })
+
     export const ResetPassValidation = z.object({
       email: z.string().min(2, { message: "Email must be at least 2 characters.", }).max(80),
     })
