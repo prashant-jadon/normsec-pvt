@@ -23,7 +23,6 @@ const App = () => {
           <Route path='/signin' element={<SignInForm/>}/>
           <Route path='/signup' element={<SignUpForm/>}/>
           <Route path='/resetpassword' element={<ResetPassword/>}/>
-          <Route path='/setresetpassword' element={<FormPasswordRest/>}/>
         </Route>
         {/*public routes*/}
         
