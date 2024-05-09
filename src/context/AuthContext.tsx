@@ -66,17 +66,19 @@ const AuthProvider = ({children}:{children:React.ReactNode}) => {
     };
 
     useEffect(() => {
-        const cookieFallback = localStorage.getItem("cookieFallback");
-        if (
-          cookieFallback === "[]" ||
-          cookieFallback === null ||
-          cookieFallback === undefined
-        ) {
+      const cookieFallback = localStorage.getItem("cookieFallback");
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const isResettingPassword = urlSearchParams.has("userId") && urlSearchParams.has("secret");
+  
+      if (cookieFallback === "[]" || cookieFallback === null || cookieFallback === undefined) {
           navigate("/setresetpassword");
-        }
-    
-        checkAuthUser();
-      }, []);
+      } else if (!isResettingPassword) {
+          navigate("/signin");
+      }
+  
+      checkAuthUser();
+  }, []);
+  
     const value = {
         user,
         setUser,
