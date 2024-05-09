@@ -13,7 +13,7 @@ const FormPasswordRest = () => {
       if (userId && secret) {
         try {
             await account.updateRecovery(userId, secret, password);
-            window.location.href = "/#/login";
+          //  window.location.href = "/#/login";
         } catch (error) {
             alert(error);
         }
