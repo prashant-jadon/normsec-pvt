@@ -86,8 +86,9 @@ const makeLinksClickable = (text: string) => {
                 }   
             </Link>
 
-            <a className='text-lg font-semibold text-gray-900' href={post.pdfUrl}>CLICK HERE TO OPEN PDF</a>
-
+            {post.pdfUrl && 
+                <a className='text-lg font-semibold text-gray-900' href={post.pdfUrl}>CLICK HERE TO OPEN PDF</a>
+            }
             <PostStats post={post} userId={user.id}/>
         </div>
     )
