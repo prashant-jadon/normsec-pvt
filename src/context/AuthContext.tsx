@@ -70,11 +70,10 @@ useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const isResettingPassword = urlSearchParams.has("userId") && urlSearchParams.has("secret");
 
- if  (cookieFallback === "[]" || cookieFallback === null || cookieFallback === undefined && isResettingPassword) {
+ if  (isResettingPassword) {
       navigate(`/setresetpassword${window.location.search}`);
     } else if(cookieFallback === "[]" || cookieFallback === null || cookieFallback === undefined) {
       navigate("/signin");
-       
     }
 
     checkAuthUser();
