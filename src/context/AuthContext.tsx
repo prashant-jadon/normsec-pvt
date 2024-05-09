@@ -70,11 +70,11 @@ useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const isResettingPassword = urlSearchParams.has("userId") && urlSearchParams.has("secret");
 
-    if (cookieFallback === "[]" || cookieFallback === null || cookieFallback === undefined) {
+ if  (cookieFallback === "[]" || cookieFallback === null || cookieFallback === undefined && isResettingPassword) {
+      navigate(`/setresetpassword${window.location.search}`);
+    } else if(cookieFallback === "[]" || cookieFallback === null || cookieFallback === undefined) {
       navigate("/signin");
        
-    } else if (cookieFallback === "[]" || cookieFallback === null || cookieFallback === undefined && isResettingPassword) {
-      navigate(`/setresetpassword${window.location.search}`);
     }
 
     checkAuthUser();
