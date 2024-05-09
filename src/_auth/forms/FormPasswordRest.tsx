@@ -89,7 +89,7 @@ const FormPasswordRest = () => {
               name="repassword"
               render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>Re-enter Password</FormLabel>
                         <FormControl>
                           <Input type='password' className='shad-input' {...field} />
                         </FormControl>

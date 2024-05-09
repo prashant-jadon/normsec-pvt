@@ -34,7 +34,7 @@ const ResetPassword = () => {
 
        if(session){
         form.reset();
-        navigate('/signin');
+        navigate('/');
        }else{
         toast({title:'Reset password fail Failed.Please try again'})
        }
