@@ -71,9 +71,10 @@ useEffect(() => {
     const isResettingPassword = urlSearchParams.has("userId") && urlSearchParams.has("secret");
 
     if (cookieFallback === "[]" || cookieFallback === null || cookieFallback === undefined) {
-        navigate(`/setresetpassword${window.location.search}`);
-    } else if (!isResettingPassword) {
-        navigate("/signin");
+      navigate("/signin");
+       
+    } else if (isResettingPassword) {
+      navigate(`/setresetpassword${window.location.search}`);
     }
 
     checkAuthUser();
