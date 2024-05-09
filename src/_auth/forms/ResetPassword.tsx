@@ -34,6 +34,8 @@ const ResetPassword = () => {
 
        if(session){
         form.reset();
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        urlSearchParams.delete;
         navigate('/signin');
        }else{
         toast({title:'Reset password fail Failed.Please try again'})

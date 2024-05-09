@@ -14,10 +14,14 @@ const Postcard = ({post}: PostCardProps) => {
     if(!post.creator) return;
 
     // Function to convert URLs in text to clickable links
-    const makeLinksClickable = (text: string) => {
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
-    };
+// Function to convert URLs in text to clickable links
+const makeLinksClickable = (text: string) => {
+    if (!text) return ''; // Check if text is null or undefined
+
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+};
+
 
     // Function to truncate text to a specified length
     const truncateText = (text: string, maxLength: number) => {
