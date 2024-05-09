@@ -142,50 +142,23 @@ export async function signOutAccount(){
         console.log(error);
     }
 }
-
-export async function createPost(post:INewPost) {
+export async function createPost(post: INewPost) {
   try {
-    if (post.file && post.file.length > 0) {
-      const uploadedFile = await uploadFile(post.file[0]);
-      if(!uploadedFile) throw Error;
-      if(uploadedFile.mimeType.startsWith('application')){
-          const fileUrlforpdf =  await uploadPdfToStorage(post.file[0]);
-          const fileUrl = getFilePreview(uploadedFile.$id);
-          if(!fileUrl){
-              deleteFile(uploadedFile.$id);
-              throw Error;
-          }
-          console.log(fileUrlforpdf);
+      let imageId = null;
+      let imageUrl = null;
+      let pdfUrl = null;
 
-    
-          const tags = post.tags?.replace(/ /g, "").split(",") || [];
-    
-          const newPost = await databases.createDocument(
-              appwriteConfig.databaseId,
-              appwriteConfig.postCollectionId,
-              ID.unique(),
-              {
-                creator: post.userId,
-                caption: post.caption,
-                imageUrl: null,
-                pdfUrl: fileUrlforpdf,
-                imageId: uploadedFile.$id,
-                location: post.location,
-                tags: tags,
-              }
-            );
-            if (!newPost) {
-              await deleteFile(uploadedFile.$id);
-              throw Error;
-            }
-        
-            return newPost;
-        
-      } if(uploadedFile.mimeType.startsWith('image')){
-      const fileUrl = getFilePreview(uploadedFile.$id);
-      if(!fileUrl){
-          deleteFile(uploadedFile.$id);
-          throw Error;
+      if (post.file && post.file.length > 0) {
+          const uploadedFile = await uploadFile(post.file[0]);
+          if (!uploadedFile) throw Error;
+
+          if (uploadedFile.mimeType.startsWith('application')) {
+              pdfUrl = await uploadPdfToStorage(post.file[0]);
+          } else if (uploadedFile.mimeType.startsWith('image')) {
+              imageUrl = getFilePreview(uploadedFile.$id);
+          }
+
+          imageId = uploadedFile.$id;
       }
 
       const tags = post.tags?.replace(/ /g, "").split(",") || [];
@@ -195,50 +168,30 @@ export async function createPost(post:INewPost) {
           appwriteConfig.postCollectionId,
           ID.unique(),
           {
-            creator: post.userId,
-            caption: post.caption,
-            imageUrl: fileUrl,
-            pdfUrl: null,
-            imageId: uploadedFile.$id,
-            location: post.location,
-            tags: tags,
+              creator: post.userId,
+              caption: post.caption,
+              imageUrl: imageUrl,
+              pdfUrl: pdfUrl,
+              imageId: imageId,
+              location: post.location,
+              tags: tags,
           }
-        );
-        if (!newPost) {
-          await deleteFile(uploadedFile.$id);
-          throw Error;
-        }
-    
-        return newPost;
-      } 
-     
+      );
 
-      const tags = post.tags?.replace(/ /g, "").split(",") || [];
-      const newPost = await databases.createDocument(
-          appwriteConfig.databaseId,
-          appwriteConfig.postCollectionId,
-          ID.unique(),
-          {
-            creator: post.userId,
-            caption: post.caption,
-            imageUrl: null,
-            pdfUrl: null,
-            imageId: uploadedFile.$id,
-            location: post.location,
-            tags: tags,
+      if (!newPost) {
+          // Delete uploaded file if creation fails
+          if (imageId) {
+              await deleteFile(imageId);
           }
-        );
-        if (!newPost) {
-          await deleteFile(uploadedFile.$id);
           throw Error;
-        }
-    
-        return newPost;
-  }
+      }
+
+      return newPost;
   } catch (error) {
       console.log(error);
   }
 }
+
 
 async function uploadPdfToStorage(pdfFile:File) {
   try {
@@ -302,7 +255,7 @@ export function getFilePreview(fileId: string) {
       100,
       100,
       undefined,
-      90
+      100
     )
     
     if (!fileUrl) throw Error;
