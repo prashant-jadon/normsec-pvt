@@ -12,6 +12,7 @@ import Followings from './_root/pages/Following';
 import Updates from './_root/pages/Updates';
 import UpdateDetails from './_root/pages/UpdateDetails';
 import ResetPassword from './_auth/forms/ResetPassword';
+import FormPasswordRest from './_auth/forms/FormPasswordRest';
 
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
           <Route path='/signin' element={<SignInForm/>}/>
           <Route path='/signup' element={<SignUpForm/>}/>
           <Route path='/resetpassword' element={<ResetPassword/>}/>
+          <Route path='/setresetpassword' element={<FormPasswordRest/>}/>
         </Route>
         {/*public routes*/}
         
