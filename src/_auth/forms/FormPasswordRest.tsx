@@ -28,17 +28,20 @@ const FormPasswordRest = () => {
    
     async function onSubmit(values: z.infer<typeof UpdateRecoverValidation>) {
        
+        if (values.password !== values.repassword) {
+            alert('Passwords do not match');
+            return;
+        }
 
+        try {
+            
         let urlSearchParams = new URLSearchParams(window.location.search);
         let secret = urlSearchParams.get("secret");
         let userId = urlSearchParams.get("userId");
 
         if (userId && secret) {
-            try {
                 await account.updateRecovery(userId, secret, values.password);
-            } catch (error) {
-                alert(error);
-            }
+                window.location.href = "/signin";
         } else {
             alert('User ID or secret not found in the URL.');
         }
@@ -47,11 +50,14 @@ const FormPasswordRest = () => {
         if(isLoggedIn){
          navigate('/');
         }else{
-         toast({title:'CONSOLE LOG REDIRECG'})
+         toast({title:'Sorry. Please try again'})
         }
-    };
 
-    // Redirect if user is logged in
+        } catch (error) {
+            toast({title: "Please try again."});
+        }
+    }
+    
 
     return (
 
@@ -98,11 +104,7 @@ const FormPasswordRest = () => {
 
               
 
-              <Button type="submit" className='shad-button_primary'>
-                
-                "Sign In"
-        
-              </Button>
+              <Button type="submit" className='shad-button_primary'> Reset Password </Button>
 
 
 
