@@ -73,7 +73,7 @@ useEffect(() => {
     if (cookieFallback === "[]" || cookieFallback === null || cookieFallback === undefined) {
       navigate("/signin");
        
-    } else if (isResettingPassword) {
+    } else if (cookieFallback === "[]" || cookieFallback === null || cookieFallback === undefined && isResettingPassword) {
       navigate(`/setresetpassword${window.location.search}`);
     }
 
