@@ -1,5 +1,4 @@
 import { Outlet,Navigate } from 'react-router-dom'
-import FormPasswordRest from './forms/FormPasswordRest';
 
 const AuthLayout = () => {
 
@@ -14,7 +13,6 @@ const AuthLayout = () => {
             <>
             <section className="flex flex-1 justify-center items-center flex-col py-10">
                 <Outlet/>
-                <FormPasswordRest/>
             </section>
             <img src='/assets/images/image.png'
             alt='logo'

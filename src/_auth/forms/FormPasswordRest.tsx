@@ -1,19 +1,32 @@
-import { useState } from 'react';
 import { account } from '@/lib/appwrite/config';
 import { useUserContext } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/components/ui/use-toast';
+import { z } from 'zod';
+import { UpdateRecoverValidation } from '@/lib/Validation';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const FormPasswordRest = () => {
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const {checkAuthUser} = useUserContext();
     const navigate = useNavigate();
+
+    const form = useForm<z.infer<typeof UpdateRecoverValidation>>({
+        resolver: zodResolver(UpdateRecoverValidation),
+        defaultValues: {
+          password: "",
+          repassword:"",
+
+        },
+      })
 
 
 
    
-    const submit = async () => {
+    async function onSubmit(values: z.infer<typeof UpdateRecoverValidation>) {
        
 
         let urlSearchParams = new URLSearchParams(window.location.search);
@@ -22,7 +35,7 @@ const FormPasswordRest = () => {
 
         if (userId && secret) {
             try {
-                await account.updateRecovery(userId, secret, password);
+                await account.updateRecovery(userId, secret, values.password);
             } catch (error) {
                 alert(error);
             }
@@ -41,32 +54,62 @@ const FormPasswordRest = () => {
     // Redirect if user is logged in
 
     return (
-        <div>
-            <h1>Reset your password</h1>
 
-            <form onSubmit={submit}>
-                <label htmlFor="password"><b>New Password</b></label>
-                <input
-                    type="password"
-                    placeholder="Enter New Password"
-                    name="password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    required />
+        <Form {...form}>
+        <div className='sm:w-420 flex-center flex-col'>
+            <img src='/assets/images/logo.svg' alt='logo'/>
+            <h2 className='h3-bold md:h2-bold pt-1 sm:pt-12'>Log In to your Account</h2>
+            <p className='text-light-3 small-medium md:base-regular mt-2'>To use RentAround enter your details</p>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
+                           
 
-                <label htmlFor="confirmPassword"><b>Confirm Password</b></label>
-                <input
-                    type="password"
-                    placeholder="Confirm Password"
-                    name="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(event) => setConfirmPassword(event.target.value)}
-                    required />
+              <FormField 
+              control={form.control} 
+              name="password"
+              render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input type='password' className='shad-input' {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                )}
+              />
 
-                <button className="button" type="submit">Reset Password</button>
+
+<FormField 
+              control={form.control} 
+              name="repassword"
+              render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input type='password' className='shad-input' {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                )}
+              />
+
+
+
+              
+
+              
+
+              <Button type="submit" className='shad-button_primary'>
+                
+                "Sign In"
+        
+              </Button>
+
+
+
             </form>
-        </div>
-    );
-};
+
+    </div>
+  </Form>
+)};
 
 export default FormPasswordRest;
