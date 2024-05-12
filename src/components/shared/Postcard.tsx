@@ -1,8 +1,8 @@
 import { useUserContext } from '@/context/AuthContext';
-import { multiFormatDateString } from '@/lib/utils';
 import { Models } from 'appwrite';
 import { Link } from 'react-router-dom';
 import PostStats from './PostStats';
+import { multiFormatDateString } from '@/lib/utils';
 
 type PostCardProps ={
     post: Models.Document;
@@ -26,61 +26,40 @@ const PostCard = ({ post }: PostCardProps) => {
     };
 
     return (
-<div className="post_details-card">
-          <img
-            src={post?.imageUrl}
-            alt="creator"
-            className={post.imageUrl ? "post_details-img" : "w-0 h-0"}
-            
-          />
+        <div className='bg-white post_details-card'>
+            <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between'>
+                <div className='flex items-center mb-3 lg:mb-0'>
+                    <Link to={`/profile/${post.creator.$id}`}>
+                        <img 
+                            src={post?.creator?.imageUrl || '/assets/icons/profile-placeholder.svg'}
+                            alt='creator'
+                            className='rounded-full w-12 h-12 lg:w-16 lg:h-16 mr-3'/>
+                    </Link>
 
-          <div className="post_details-info">
-            <div className="flex-between w-full">
-              <Link
-                to={`/profile/${post?.creator.$id}`}
-                className="flex items-center gap-3">
-                <img
-                  src={
-                    post?.creator.imageUrl ||
-                    "/assets/icons/profile-placeholder.svg"
-                  }
-                  alt="creator"
-                  className="w-8 h-8 lg:w-12 lg:h-12 rounded-full"
-                />
-                <div className="flex gap-1 flex-col">
-                  <p className="base-medium lg:body-bold text-light-1">
-                    {post?.creator.name}
-                  </p>
-                  <div className="flex-center gap-2 text-light-3">
-                    <p className="subtle-semibold lg:small-regular ">
-                      {multiFormatDateString(post?.$createdAt)}
-                    </p>
-                    •
-                    <p className="subtle-semibold lg:small-regular">
-                      {post?.location}
-                    </p>
-                  </div>
+                    <div className='flex flex-col'>
+                        <p className='text-lg font-bold text-gray-800'>
+                            {post.creator.name}
+                        </p>
+                        <div className='flex items-center text-sm text-gray-600'>
+                            <p className='mr-2'>
+                                {multiFormatDateString(post.$createdAt)}
+                            </p>
+                            <p>-</p>
+                            <p className='ml-2'>
+                                {post.location}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-              </Link>
 
-              <div className="flex-center gap-4">
-                <Link
-                  to={`/update-post/${post?.$id}`}
-                  className={`${user.id !== post?.creator.$id && "hidden"}`}>
-                  <img
-                    src={"/assets/icons/edit.svg"}
-                    alt="edit"
-                    width={24}
-                    height={24}
-                  />
+                <Link to={`/update-post/${post.$id}`} className={`lg:flex ${user.id !== post.creator.$id && "hidden"}`}>
+                    <img src='/assets/icons/edit.svg' alt='edit' width={20} height={20}/>
                 </Link>
-              </div>
             </div>
 
-            <hr className="border w-full border-dark-4/80" />
-
-            <div className='py-4'>
-                    <p className='text-lg font-semibold text-gray-900' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(post.caption, 500)) }}></p>
+            <Link to={`/posts/${post.$id}`} className='block'>
+                <div className='py-4'>
+                    <p className='text-lg font-semibold text-gray-900' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(post.caption, 300)) }}></p>
                     <ul className='flex gap-1 mt-2 flex-wrap'>
                         {post.tags.map((tag: string) => (
                             <li key={tag} className='text-gray-600'>
@@ -90,13 +69,16 @@ const PostCard = ({ post }: PostCardProps) => {
                     </ul>
                 </div>
 
+                {post.imageUrl && 
+                    <img src={post.imageUrl} className='w-full h-auto rounded-lg mt-4' alt='post image'/>
+                }   
+            </Link>
+
             {post.pdfUrl && 
                 <a className='text-lg font-semibold text-gray-900 block mt-2' href={post.pdfUrl} style={{ color: 'blue' }}>CLICK HERE TO OPEN PDF</a>
             }
-            <div className="w-full py-4">
-              <PostStats post={post} userId={user.id} />
-            </div>
-          </div>
+
+            <PostStats post={post} userId={user.id}/>
         </div>
     );
 };
