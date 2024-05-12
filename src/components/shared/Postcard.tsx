@@ -20,10 +20,7 @@ const PostCard = ({ post }: PostCardProps) => {
         return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: blue;">${url}</a>`);
     };
 
-    const truncateText = (text: string, maxLength: number) => {
-        if (text.length <= maxLength) return text;
-        return text.slice(0, maxLength) + '...';
-    };
+
 
     return (
         <div className='bg-white rounded-lg shadow-lg p-4 mb-4'>
