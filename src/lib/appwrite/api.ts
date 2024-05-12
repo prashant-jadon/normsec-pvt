@@ -1,5 +1,5 @@
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
-import { ID, Query } from "appwrite";
+import { ID, ImageGravity, Query } from "appwrite";
 import {account, appwriteConfig, databases, storage} from "./config";
 import { avatars } from "./config";
 
@@ -252,9 +252,9 @@ export function getFilePreview(fileId: string) {
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId,
       fileId,
-      100,
-      100,
-      undefined,
+      2000,
+      2000,
+      ImageGravity.Top,
       100
     )
     
