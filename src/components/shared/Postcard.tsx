@@ -8,22 +8,18 @@ type PostCardProps ={
     post: Models.Document;
 }
 
-const Postcard = ({post}: PostCardProps) => {
+const PostCard = ({ post }: PostCardProps) => {
+    const { user } = useUserContext();
 
-    const {user} = useUserContext();
-    if(!post.creator) return;
+    if (!post.creator) return null;
 
-    // Function to convert URLs in text to clickable links
-// Function to convert URLs in text to clickable links
-const makeLinksClickable = (text: string) => {
-    if (!text) return ''; // Check if text is null or undefined
+    const makeLinksClickable = (text: string) => {
+        if (!text) return ''; 
 
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
-};
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: blue;">${url}</a>`);
+    };
 
-
-    // Function to truncate text to a specified length
     const truncateText = (text: string, maxLength: number) => {
         if (text.length <= maxLength) return text;
         return text.slice(0, maxLength) + '...';
@@ -33,13 +29,12 @@ const makeLinksClickable = (text: string) => {
         <div className='bg-white rounded-lg shadow-lg p-4 mb-4'>
             <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between'>
                 <div className='flex items-center mb-3 lg:mb-0'>
-                    <Link to={`/profile/${post.creator.$id}`} >
+                    <Link to={`/profile/${post.creator.$id}`}>
                         <img 
                             src={post?.creator?.imageUrl || '/assets/icons/profile-placeholder.svg'}
                             alt='creator'
                             className='rounded-full w-12 h-12 lg:w-16 lg:h-16 mr-3'/>
                     </Link>
-
 
                     <div className='flex flex-col'>
                         <p className='text-lg font-bold text-gray-800'>
@@ -57,41 +52,35 @@ const makeLinksClickable = (text: string) => {
                     </div>
                 </div>
 
-                <Link to={`/update-post/${post.$id}`}
-                    className={`${user.id !== post.creator.$id && "hidden"}`}
-                >
-                    <img src='/assets/icons/edit.svg'
-                        alt='edit'
-                        width={20}
-                        height={20}/>
+                <Link to={`/update-post/${post.$id}`} className={`${user.id !== post.creator.$id && "hidden"}`}>
+                    <img src='/assets/icons/edit.svg' alt='edit' width={20} height={20}/>
                 </Link>
             </div>
-            <Link to={`/posts/${post.$id}`}>
-                <div className='py-4'>
-                    <p className='text-lg font-semibold text-gray-900' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(post.caption, 30)) }}></p>
-                    <ul className='flex gap-1 mt-2'>
-                        {post.tags.map((tag:string)=>(
-                            <li key={tag} className='text-gray-600' >
-                              
 
+            <Link to={`/posts/${post.$id}`} className='block'>
+                <div className='py-4'>
+                    <p className='text-lg font-semibold text-gray-900' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(post.caption, 120)) }}></p>
+                    <ul className='flex gap-1 mt-2 flex-wrap'>
+                        {post.tags.map((tag: string) => (
+                            <li key={tag} className='text-gray-600'>
+                                #{tag}
                             </li>
                         ))}
                     </ul>
                 </div>
 
                 {post.imageUrl && 
-                    <img src={post.imageUrl}
-                        className='w-full h-auto rounded-lg mt-4'
-                        alt='post image'/>
+                    <img src={post.imageUrl} className='w-full h-auto rounded-lg mt-4' alt='post image'/>
                 }   
             </Link>
 
             {post.pdfUrl && 
-                <a className='text-lg font-semibold text-gray-900' href={post.pdfUrl}>CLICK HERE TO OPEN PDF</a>
+                <a className='text-lg font-semibold text-gray-900 block mt-2' href={post.pdfUrl} style={{ color: 'blue' }}>CLICK HERE TO OPEN PDF</a>
             }
+
             <PostStats post={post} userId={user.id}/>
         </div>
-    )
-}
+    );
+};
 
-export default Postcard;
+export default PostCard;
