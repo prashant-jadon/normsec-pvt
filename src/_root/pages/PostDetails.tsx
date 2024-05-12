@@ -143,8 +143,10 @@ const makeLinksClickable = (text: string) => {
                 ))}
               </ul>
             </div>
-            <p className='post-caption' dangerouslySetInnerHTML={{ __html: makeLinksClickable(post.pdfUrl) }}></p>
 
+            {post.pdfUrl && 
+                <a className='text-lg font-semibold text-gray-900 block mt-2' href={post.pdfUrl} style={{ color: 'blue' }}>CLICK HERE TO OPEN PDF</a>
+            }
             <div className="w-full py-4">
               <PostStats post={post} userId={user.id} />
             </div>
