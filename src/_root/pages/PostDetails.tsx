@@ -32,7 +32,7 @@ const makeLinksClickable = (text: string) => {
   if (!text) return ''; // Check if text is null or undefined
 
   const urlRegex = /(https?:\/\/[^\s]+)/g;
-  return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+  return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: blue;">${url}</a>`);
 };
 
 
