@@ -252,8 +252,8 @@ export function getFilePreview(fileId: string) {
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId,
       fileId,
-      500,
-      500
+      1000,
+      1000
     )
     
     if (!fileUrl) throw Error;
