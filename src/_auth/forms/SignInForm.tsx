@@ -60,7 +60,7 @@ const SignInForm = () => {
           Log In to your Account
         </h2>
         <p className="text-light-3 small-medium md:base-regular mt-2">
-          To use RentAround enter your details
+          To use Normsec enter your details
         </p>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
