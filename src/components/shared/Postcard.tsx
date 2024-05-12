@@ -20,7 +20,10 @@ const PostCard = ({ post }: PostCardProps) => {
         return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: blue;">${url}</a>`);
     };
 
-
+    const truncateText = (text: string, maxLength: number) => {
+        if (text.length <= maxLength) return text;
+        return text.slice(0, maxLength) + '...';
+    };
 
     return (
         <div className='bg-white rounded-lg shadow-lg p-4 mb-4'>
@@ -56,7 +59,7 @@ const PostCard = ({ post }: PostCardProps) => {
 
             <Link to={`/posts/${post.$id}`} className='block'>
                 <div className='py-4'>
-                    <p className='text-lg font-semibold text-gray-900' dangerouslySetInnerHTML={{ __html: makeLinksClickable(post.caption) }}></p>
+                    <p className='text-lg font-semibold text-gray-900' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(post.caption, 300)) }}></p>
                     <ul className='flex gap-1 mt-2 flex-wrap'>
                         {post.tags.map((tag: string) => (
                             <li key={tag} className='text-gray-600'>
