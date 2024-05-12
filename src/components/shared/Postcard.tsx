@@ -59,7 +59,7 @@ const PostCard = ({ post }: PostCardProps) => {
 
             <Link to={`/posts/${post.$id}`} className='block'>
                 <div className='py-4'>
-                    <p className='text-lg font-semibold text-gray-900' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(post.caption, 120)) }}></p>
+                    <p className='text-lg font-semibold text-gray-900' dangerouslySetInnerHTML={{ __html: makeLinksClickable(post.caption) }}></p>
                     <ul className='flex gap-1 mt-2 flex-wrap'>
                         {post.tags.map((tag: string) => (
                             <li key={tag} className='text-gray-600'>
