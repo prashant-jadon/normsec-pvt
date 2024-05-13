@@ -12,6 +12,19 @@ const UpdateDetails = () => {
     const { user } = useUserContext();
 
     const { data: update, isLoading } = useGetUpdatesById(id);
+
+    const makeLinksClickable = (text: string) => {
+      if (!text) return ''; 
+
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: blue;">${url}</a>`);
+  };
+
+  const truncateText = (text: string, maxLength: number) => {
+      if (text.length <= maxLength) return text;
+      return text.slice(0, maxLength) + '...';
+  };
+
   return (
     <div className="post_details-container">
          <div className="hidden md:flex max-w-5xl w-full">
@@ -72,14 +85,16 @@ const UpdateDetails = () => {
 
             <hr className="border w-full border-dark-4/80" />
 
-            <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
-              <p>{update?.captionRequest}</p>
+          <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
+            <p className='post-caption' dangerouslySetInnerHTML={{ __html: makeLinksClickable(update?.captionRequest) }}></p>
               <ul className="flex gap-1 mt-2">
+                
+                
                 {update?.tagsRequest.map((tag: string, index: string) => (
                   <li
                     key={`${tag}${index}`}
-                    className="text-light-3 small-regular">
-                    #{tag}
+                    >
+                     #{tag}
                   </li>
                 ))}
               </ul>

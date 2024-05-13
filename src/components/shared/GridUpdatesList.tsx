@@ -57,7 +57,7 @@ const GridUpdatesList = ({
 
 
 
-            <Link to={`/posts/${update.$id}`} className='block'>
+            <Link to={`/updates/${update.$id}`} className='block'>
                 <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
                     <p className='post-caption text-gray-900' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(update.captionRequest, 300)) }}></p>
                     <ul className="flex gap-1 mt-2">
