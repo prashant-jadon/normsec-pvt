@@ -29,7 +29,7 @@ const GridUpdatesList = ({
     };
 
   return (
-    <div>
+    <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
       {updates.map((update) => (
         <div key={update.$id} className="post-card mb-8">
 
