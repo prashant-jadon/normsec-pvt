@@ -29,9 +29,9 @@ const GridUpdatesList = ({
     };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
+    <div>
       {updates.map((update) => (
-        <div key={update.$id} className="post-card mb-8">
+        <div key={update.$id} className="bg-white rounded-lg shadow-lg p-4 mb-4">
 
           <Link to={`/profile/${update.creatorRequest.$id}`}>
                         <img 
