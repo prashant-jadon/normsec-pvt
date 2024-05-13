@@ -16,6 +16,17 @@ const GridPostList = ({
 }: GridPostListProps) => {
   const { user } = useUserContext();
 
+  const makeLinksClickable = (text: string) => {
+    if (!text) return ''; 
+
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: blue;">${url}</a>`);
+};
+
+const truncateText = (text: string, maxLength: number) => {
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + '...';
+};
   return (
     <div>
       <ul className="grid-container">
@@ -31,7 +42,8 @@ const GridPostList = ({
               )}
               {!post.imageUrl && (
                 <div className="bg-black bg-opacity-20 text-white p-4 rounded-lg">
-<p className="text-lg font-semibold mb-20">{post.caption}</p>
+<p className='post-caption' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(post.caption, 300)) }}></p>
+
                 </div>
               )}
             </Link>
