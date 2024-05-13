@@ -78,11 +78,13 @@ const GridUpdatesList = ({
                 <a className='text-lg font-semibold text-gray-900 block mt-2' href={update.pdfUrlRequest} style={{ color: 'blue' }}>CLICK HERE TO OPEN PDF</a>
             }
 
-          {showStats && (
+            <div className=" text-gray-900">
+            {showStats && (
             
-              <UpdateStats update={update} userId={user.id} />
-           
-          )}
+            <UpdateStats update={update} userId={user.id} />
+         
+        )}
+            </div>
         </div>
       ))}
     </div>
