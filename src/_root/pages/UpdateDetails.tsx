@@ -96,6 +96,10 @@ const UpdateDetails = () => {
               </ul>
             </div>
 
+            {update.pdfUrlRequest && 
+                <a className='text-lg font-semibold text-gray-900 block mt-2' href={update.pdfUrlRequest} style={{ color: 'blue' }}>CLICK HERE TO OPEN PDF</a>
+            }
+
             <div className="w-full">
               <UpdateStats update={update} userId={user.id} />
             </div>
