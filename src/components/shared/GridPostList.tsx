@@ -42,7 +42,8 @@ const truncateText = (text: string, maxLength: number) => {
               )}
               {!post.imageUrl && (
                 <div className="bg-black bg-opacity-20 text-white p-4 rounded-lg">
-<p className='post-caption' dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(post.caption, 300)) }}></p>
+
+<p className="text-lg font-semibold mb-20" dangerouslySetInnerHTML={{ __html: makeLinksClickable(truncateText(post.caption, 300)) }}></p>
 
                 </div>
               )}
