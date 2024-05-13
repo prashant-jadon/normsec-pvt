@@ -78,7 +78,9 @@ const PostCard = ({ post }: PostCardProps) => {
                 <a className='text-lg font-semibold text-gray-900 block mt-2' href={post.pdfUrl} style={{ color: 'blue' }}>CLICK HERE TO OPEN PDF</a>
             }
 
+            <div className=' text-gray-900'>
             <PostStats post={post} userId={user.id}/>
+            </div>
         </div>
     );
 };
