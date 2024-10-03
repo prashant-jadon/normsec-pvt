@@ -1,177 +1,171 @@
-**Fractional Knapsack**
-======================
-
-The fractional knapsack problem is a variation of the classic 0/1 knapsack problem. In this version, instead of selecting items with whole weight capacities to maximize value, we can select fractions of these items.
+**Chapter 5: Matplotlib - A Powerful Data Visualization Library**
 
 **Introduction**
----------------
+===============
 
-In this chapter, we will explore the fractional knapsack problem and its applications in computer science. We'll discuss the problem's definition, importance, and solution strategies.
+Matplotlib is a popular data visualization library used extensively in scientific computing, data analysis, and education. It provides an object-oriented interface for creating high-quality 2D and 3D plots, charts, and graphs. In this chapter, we'll explore the basics of Matplotlib, its features, and examples of how to use it.
 
 **Chapter Outline**
--------------------
+================
 
-*   Introduction
-    *   Problem Definition
-    *   Importance
-*   Mathematical Formulation
-    *   Objective Function
-    *   Constraints
-*   Solution Strategies
-    *   Greedy Algorithm
-    *   Dynamic Programming
-*   Code Implementation
-*   Applications
+*   Introduction to Matplotlib
+*   Creating Simple Plots
+*   Customizing Plot Appearance
+*   Adding Data Labels and Annotate
+*   Subplots and Figure Layouts
+*   Advanced Topics: 3D plots, Streaming data, etc.
+*   Real-World Examples
+*   Challenges/Limitations
 
 **Key Concepts**
----------------
+=============
 
-*   **Fractional Knapsack**: A problem where we select fractions of items to maximize value, given a knapsack capacity constraint.
-*   **Knapsack Problem**: A classic problem in computer science where we choose a subset of items to include in a collection (knapsack) such that the total weight does not exceed a given limit.
+### Importing Matplotlib
 
-**Mathematical Formulation**
----------------------------
-
-### Objective Function
-
-The goal is to maximize the value of the selected fractions:
+To start using Matplotlib, you need to import the library. The most common way is:
 
 ```python
-def objective_function(values, weights, capacity):
-    n = len(values)
-    profit_values = [v/w for v,w in zip(values, weights)]
-    sorted_indices = sorted(range(n), key=lambda i: profit_values[i], reverse=True)
-    selected_fractions = []
-    
-    for idx in sorted_indices:
-        fraction_weight = min(capacity, weights[idx])
-        capacity -= fraction_weight
-        selected_fractions.append((idx, fraction_weight * values[idx]))
-        
-        if capacity == 0:
-            break
-    
-    return sum(v for _, v in selected_fractions)
+import matplotlib.pyplot as plt
 ```
 
-### Constraints
+This imports the entire `matplotlib` library and assigns it the alias `plt`.
 
-*   Total weight of selected fractions should not exceed the knapsack capacity (`W`).
-*   Values are non-negative integers.
+### Basic Plotting
 
-**Solution Strategies**
-----------------------
-
-### Greedy Algorithm
-
-The greedy algorithm solves the fractional knapsack problem by selecting items that give the highest value-to-weight ratio.
+Here's an example of a simple line plot:
 
 ```python
-def greedy_algorithm(values, weights, capacity):
-    n = len(values)
-    ratios = [v/w for v,w in zip(values, weights)]
-    sorted_indices = sorted(range(n), key=lambda i: ratios[i], reverse=True)
-    
-    selected_fractions = []
-    remaining_capacity = capacity
-    
-    for idx in sorted_indices:
-        if weights[idx] <= remaining_capacity:
-            fraction_weight = remaining_capacity
-            remaining_capacity -= fraction_weight
-            selected_fractions.append((idx, fraction_weight * values[idx]))
-        else:
-            fraction_weight = remaining_capacity
-            remaining_capacity = 0
-            selected_fractions.append((idx, fraction_weight * values[idx]))
-    
-    return sum(v for _, v in selected_fractions)
+import matplotlib.pyplot as plt
+
+x = [1, 2, 3, 4, 5]
+y = [1, 4, 9, 16, 25]
+
+plt.plot(x, y)
+plt.show()
 ```
 
-### Dynamic Programming
+**Detailed Explanation**
+=====================
 
-Dynamic programming is an efficient method to solve the fractional knapsack problem.
+### Creating Simple Plots
+
+Matplotlib has a wide range of plot types to choose from:
+
+*   `plot()`: Creates a line plot
+*   `bar()`: Creates a bar chart
+*   `scatter()`: Creates a scatter plot
+*   `hist()`: Creates a histogram
+
+For example, let's create a scatter plot:
 
 ```python
-def dynamic_programming(values, weights, capacity):
-    n = len(values)
-    dp_table = [[0.0 for _ in range(capacity + 1)] for _ in range(n + 1)]
-    
-    for i in range(1, n+1):
-        for w in range(1, capacity+1):
-            if weights[i-1] > w:
-                dp_table[i][w] = dp_table[i - 1][w]
-            else:
-                dp_table[i][w] = max(dp_table[i - 1][w], values[i-1]/weights[i-1]*w + dp_table[i-1][w-weights[i-1]])
-    
-    return dp_table[n][capacity]
+import matplotlib.pyplot as plt
+
+x = [1, 2, 3, 4, 5]
+y = [1, 4, 9, 16, 25]
+
+plt.scatter(x, y)
+plt.show()
 ```
 
-**Code Implementation**
-----------------------
+### Customizing Plot Appearance
 
-The above solution strategies are implemented in Python.
+Matplotlib allows you to customize the appearance of your plots with various options:
+
+*   `title()`: Sets the title of the plot
+*   `xlabel()` and `ylabel()`: Set the labels for the x-axis and y-axis
+*   `grid()`: Enables or disables the grid in the plot
+*   `legend()`: Adds a legend to the plot
+
+For example, let's add some text and customize the appearance of our scatter plot:
 
 ```python
-def fractional_knapsack(values, weights, capacity):
-    n = len(values)
-    
-    # Using Greedy Algorithm for simplicity and better performance.
-    def greedy_algorithm():
-        ratios = [v/w for v,w in zip(values, weights)]
-        sorted_indices = sorted(range(n), key=lambda i: ratios[i], reverse=True)
-        
-        selected_fractions = []
-        remaining_capacity = capacity
-        
-        for idx in sorted_indices:
-            if weights[idx] <= remaining_capacity:
-                fraction_weight = remaining_capacity
-                remaining_capacity -= fraction_weight
-                selected_fractions.append((idx, fraction_weight * values[idx]))
-            else:
-                fraction_weight = remaining_capacity
-                remaining_capacity = 0
-                selected_fractions.append((idx, fraction_weight * values[idx]))
-        
-        return sum(v for _, v in selected_fractions)
-    
-    # Using Dynamic Programming for demonstration.
-    def dynamic_programming():
-        n = len(values)
-        dp_table = [[0.0 for _ in range(capacity + 1)] for _ in range(n + 1)]
-        
-        for i in range(1, n+1):
-            for w in range(1, capacity+1):
-                if weights[i-1] > w:
-                    dp_table[i][w] = dp_table[i - 1][w]
-                else:
-                    dp_table[i][w] = max(dp_table[i - 1][w], values[i-1]/weights[i-1]*w + dp_table[i-1][w-weights[i-1]])
-        
-        return dp_table[n][capacity]
+import matplotlib.pyplot as plt
 
-    # Compute the fractional knapsack solution.
-    solution_greedy = greedy_algorithm()
-    solution_dp = dynamic_programming()
+x = [1, 2, 3, 4, 5]
+y = [1, 4, 9, 16, 25]
 
-    print("Greedy Algorithm Solution:", solution_greedy)
-    print("Dynamic Programming Solution:", solution_dp)
-
-# Example usage
-values = [60, 100, 120]
-weights = [10, 20, 30]
-capacity = 50
-
-fractional_knapsack(values, weights, capacity)
+plt.scatter(x, y)
+plt.title("Example Scatter Plot")
+plt.xlabel("X Axis")
+plt.ylabel("Y Axis")
+plt.grid(True)
+plt.legend(["Points"])
+plt.show()
 ```
 
-**Applications**
------------------
+### Adding Data Labels and Annotate
 
-The fractional knapsack problem has various applications in:
+Matplotlib allows you to add text labels to specific points on your plot:
 
-*   **Finance**: Portfolio optimization and asset allocation.
-*   **Logistics**: Vehicle routing and load planning.
-*   **Supply Chain Management**: Inventory management and production planning.
+*   `annotate()`: Adds a label to the plot
+*   `text()`: Adds a general text label
 
-Note: This example implementation assumes values and weights are non-negative integers, representing monetary amounts.
+For example, let's add some data labels to our scatter plot:
+
+```python
+import matplotlib.pyplot as plt
+
+x = [1, 2, 3, 4, 5]
+y = [1, 4, 9, 16, 25]
+
+plt.scatter(x, y)
+for i in range(len(x)):
+    plt.annotate(f"({x[i]}, {y[i]})", (x[i], y[i]))
+plt.show()
+```
+
+**Subplots and Figure Layouts**
+=============================
+
+Matplotlib also allows you to create multiple plots within a single figure:
+
+*   `subplots()`: Creates a new figure with multiple subplots
+*   `add_subplot()`: Adds a new subplot to the current figure
+
+For example, let's create a figure with two subplots:
+
+```python
+import matplotlib.pyplot as plt
+
+x = [1, 2, 3, 4, 5]
+y = [1, 4, 9, 16, 25]
+
+plt.subplots(2)
+plt.subplot(0, 0).scatter(x, y)
+for i in range(len(x)):
+    plt.subplot(0, 0).annotate(f"({x[i]}, {y[i]})", (x[i], y[i]))
+plt.show()
+```
+
+**Real-World Examples**
+=====================
+
+Matplotlib is widely used in various fields:
+
+*   Scientific computing
+*   Data analysis
+*   Education
+*   Web development (e.g., Plotly)
+
+You can use Matplotlib to create a wide range of plots and charts, including:
+
+*   Line plots
+*   Scatter plots
+*   Bar charts
+*   Histograms
+
+**Challenges/Limitations**
+=====================
+
+Matplotlib has some limitations:
+
+*   It can be slow for large datasets
+*   Its customization options are not as extensive as those of other libraries (e.g., Plotly)
+
+However, Matplotlib is still an excellent choice for data visualization tasks due to its ease of use, flexibility, and wide range of features.
+
+**Conclusion**
+----------
+
+In this chapter, we explored the basics of Matplotlib, including creating simple plots, customizing plot appearance, adding data labels, subplots, and figure layouts. We also discussed real-world examples and challenges/limitations of using Matplotlib.
